@@ -1,0 +1,18 @@
+.navtab {
+  display: flex;
+  gap: 10px;
+  padding-bottom: 30px;
+}
+
+.navtab__button {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 133.333% */
+  width: 96px;
+  height: 36px;
+  border-radius: 10px;
+  background: #303030;
+  border: none;
+  color: white;
+}

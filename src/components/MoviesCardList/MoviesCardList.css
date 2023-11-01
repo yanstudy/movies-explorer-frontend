@@ -1,0 +1,29 @@
+.movies-card-list {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 160px;
+}
+
+.movies-card-list__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 20px;
+  column-gap: 30px;
+}
+
+.movies-card-list__button {
+  background-color: inherit;
+  border-radius: 6px;
+  border: 1px solid #424242;
+  width: 320px;
+  height: 36px;
+  color: inherit;
+  text-align: center;
+  font-family: 'Inter';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 78px;
+}

@@ -1,0 +1,15 @@
+.main-title {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  margin: 0 auto;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #dadada;
+  align-self: start;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.88px;
+  text-align: start;
+}
