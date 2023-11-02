@@ -8,13 +8,16 @@ export default function FilterCheckbox() {
     setIsChecked(!isChecked);
   };
   return (
-    <label className={`checkbox ${isChecked ? 'checked' : ''}`}>
+    <label className='checkbox'>
       <input
         className='checkbox__input'
         type='checkbox'
         checked={isChecked}
         onChange={handleCheckboxChange}
       />
+      <span className='checkbox__track'>
+        <span className='checkbox__indicator'></span>
+      </span>
       Короткометражки
     </label>
   );

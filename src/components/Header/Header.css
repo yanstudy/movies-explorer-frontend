@@ -26,6 +26,14 @@
   border: none;
   cursor: pointer;
   text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+.header__movies:hover {
+  opacity: 0.7;
+}
+
+.header__movies_active {
+  font-weight: 500;
 }
 
 .header__account {

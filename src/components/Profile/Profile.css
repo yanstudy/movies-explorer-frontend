@@ -49,16 +49,22 @@
   text-align: right;
 }
 
-.profile__submit-button {
+.profile__edit-button {
   margin-top: 220px;
   width: 410px;
   height: 16px;
   background-color: inherit;
   border: none;
   color: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
-.profile__submit-button_quit {
+.profile__edit-button:hover {
+  opacity: 0.7;
+}
+
+.profile__edit-button_quit {
   margin-top: 16px;
   color: #ee3465;
 }

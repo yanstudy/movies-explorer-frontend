@@ -1,21 +1,22 @@
+import Logo from '../Logo/Logo';
 import './Header.css';
-import logo from '../../images/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Header({ isLoggedIn }) {
+  const setActive = ({ isActive }) =>
+    isActive ? 'header__movies header__movies_active' : 'header__movies';
+
   return (
     <div className='header'>
-      <Link to='/'>
-        <img src={logo} alt='logo' className='header__logo' />
-      </Link>
+      <Logo />
       {isLoggedIn && (
         <div className='header__movies-container'>
-          <Link to='/movies' className='header__movies'>
+          <NavLink to='/movies' className={setActive}>
             Фильмы
-          </Link>
-          <Link to='/saved-movies' className='header__movies'>
+          </NavLink>
+          <NavLink to='/saved-movies' className={setActive}>
             Сохранённые фильмы
-          </Link>
+          </NavLink>
         </div>
       )}
       <div className='header__account'>
