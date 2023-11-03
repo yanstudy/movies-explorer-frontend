@@ -7,7 +7,7 @@ export default function Header({ isLoggedIn }) {
     isActive ? 'header__movies header__movies_active' : 'header__movies';
 
   return (
-    <div className='header'>
+    <header className='header'>
       <Logo />
       {isLoggedIn && (
         <div className='header__movies-container'>
@@ -35,6 +35,6 @@ export default function Header({ isLoggedIn }) {
           </>
         )}
       </div>
-    </div>
+    </header>
   );
 }

@@ -7,47 +7,22 @@ export default function MoviesCardList() {
       <div className='movies-card-list__container'>
         <MoviesCard
           link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='хуй'
+          name='33 слова о дизайне'
           duration='1ч 17м'
         />
         <MoviesCard
           link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='KLkjhk.jhk.jhk.jhk.jhkjhkjhkljhkjhkjhkhkjhkjhkjhkjhkjhkjhkjhkjh'
+          name='Киноальманах «100 лет дизайна»'
           duration='1ч 17м'
         />
         <MoviesCard
           link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='хуй'
+          name='В погоне за Бенкси'
           duration='1 ч 17 м'
         />
         <MoviesCard
           link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='хуй'
-          duration='1 ч 17 м'
-        />
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='хуй'
-          duration='1 ч 17 м'
-        />
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='хуй'
-          duration='1 ч 17 м'
-        />
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='хуй'
-          duration='1 ч 17 м'
-        />
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='хуй'
-          duration='1 ч 17 м'
-        />
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='хуй'
+          name='Баския: Взрыв реальности'
           duration='1 ч 17 м'
         />
       </div>

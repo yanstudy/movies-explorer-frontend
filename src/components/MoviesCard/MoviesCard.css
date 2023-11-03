@@ -3,6 +3,7 @@
   font-family: 'Inter';
   font-style: normal;
   margin-top: 60px;
+  position: relative;
 }
 
 .moviescard__image {
@@ -10,6 +11,14 @@
   height: 201px;
   object-fit: cover;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.moviescard__like {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  object-fit: cover;
 }
 
 .moviescard__info {
@@ -29,6 +38,7 @@
   overflow: hidden;
   max-width: 250px;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .moviescard__duration {
