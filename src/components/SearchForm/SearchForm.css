@@ -29,6 +29,7 @@
   background: #2f2f2f;
   padding-left: 20px;
   outline: none;
+  color: white;
 }
 
 .searchform__input::placeholder {
@@ -48,4 +49,40 @@
   height: 44px;
   border: none;
   background-color: inherit;
+}
+
+@media (max-width: 1180px) {
+  .searchform {
+    max-width: 1024px;
+  }
+}
+
+@media (max-width: 1060px) {
+  .searchform {
+    max-width: 868px;
+  }
+}
+
+@media (max-width: 900px) {
+  .searchform {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 800px) {
+  .searchform {
+    max-width: 728px;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchform {
+    max-width: 768px;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+  }
+  .searchform__container {
+    padding-bottom: 41px;
+  }
 }

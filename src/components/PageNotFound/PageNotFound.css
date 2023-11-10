@@ -40,3 +40,9 @@
   margin-bottom: 60px;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .page-not-found__404 {
+    margin-top: 408px;
+  }
+}

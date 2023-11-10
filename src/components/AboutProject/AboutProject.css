@@ -12,9 +12,9 @@
 
 .aboutproject__info {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 70px;
+  gap: 15px;
 }
 
 .aboutproject__part {
@@ -85,4 +85,97 @@
 
 .aboutproject_textcolor {
   color: #000;
+}
+
+@media (max-width: 1180px) {
+  .aboutproject {
+    max-width: 1024px;
+  }
+  .aboutproject__part {
+    max-width: 512px;
+  }
+}
+
+@media (max-width: 1060px) {
+  .aboutproject {
+    max-width: 868px;
+  }
+  .aboutproject__part {
+    max-width: 434px;
+  }
+}
+
+@media (max-width: 900px) {
+  .aboutproject {
+    max-width: 768px;
+  }
+  .aboutproject__part {
+    max-width: 384px;
+  }
+}
+
+@media (max-width: 800px) {
+  .aboutproject {
+    max-width: 728px;
+  }
+  .aboutproject__part {
+    max-width: 364px;
+  }
+}
+
+@media (max-width: 768px) {
+  .aboutproject {
+    margin: 90px 0;
+    max-width: 768px;
+    padding-left: 50px;
+    padding-right: 50px;
+    box-sizing: border-box;
+  }
+
+  .aboutproject__part {
+    max-width: 319px;
+  }
+  .aboutproject__paragraph {
+    font-size: 12px;
+    line-height: 18px;
+    margin-top: 22px;
+  }
+  .aboutproject__weeks_margin {
+    margin-top: 93px;
+  }
+  .aboutproject__weeks {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 400px) {
+  .aboutproject {
+    padding-left: 18px;
+    padding-right: 18px;
+    margin: 70px 0;
+  }
+  .aboutproject__info {
+    flex-wrap: wrap;
+    margin-top: 60px;
+  }
+  .aboutprohect__subtitle {
+    font-size: 18px;
+    letter-spacing: -0.72px;
+  }
+  .aboutproject__paragraph {
+    margin-top: 16px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .aboutproject__weeks_margin {
+    margin-top: 60px;
+  }
+  .aboutproject__oneweek {
+    font-size: 11px;
+    width: 100px;
+  }
+  .aboutproject__fourweeks {
+    font-size: 11px;
+    max-width: 184px;
+  }
 }

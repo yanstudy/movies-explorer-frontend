@@ -16,7 +16,7 @@
   text-align: center;
   font-size: 50px;
   font-weight: 400;
-  line-height: 58px; /* 116% */
+  line-height: 58px;
   letter-spacing: -2px;
   margin: 0;
   padding: 0;
@@ -29,11 +29,11 @@
   padding: 0;
   color: #fff;
   text-align: center;
-  font-family: Inter;
+  font-family: 'Inter';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 20px; /* 142.857% */
+  line-height: 20px;
   letter-spacing: -0.56px;
   max-width: 460px;
   width: 100%;
@@ -43,6 +43,7 @@
   display: flex;
   margin-top: 100px;
   gap: 10px;
+  flex-wrap: wrap;
 }
 .tech__item {
   width: 90px;
@@ -59,4 +60,54 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 823px) {
+  .tech {
+    padding-left: 50px;
+    padding-right: 50px;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 768px) {
+  .tech {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
+  .tech__title {
+    margin-top: 80px;
+    margin-bottom: 22px;
+  }
+  .tech__items {
+    margin-top: 83px;
+  }
+  .tech__subtitle {
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: -0.48px;
+  }
+  .tech__item {
+    width: 84px;
+    height: 57px;
+  }
+}
+
+@media (max-width: 400px) {
+  .tech {
+    padding: 70px 18px;
+  }
+  .tech__title {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  .tech__items {
+    margin-top: 50px;
+    max-width: 178px;
+  }
+  .tech__subtitle {
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: -0.44px;
+  }
 }

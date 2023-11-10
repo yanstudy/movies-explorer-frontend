@@ -2,8 +2,12 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import './SearchForm.css';
 
 export default function SearchForm() {
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <form className='searchform' noValidate>
+    <form className='searchform' noValidate onSubmit={handleSearchSubmit}>
       <div className='searchform__container'>
         <input
           className='searchform__input'

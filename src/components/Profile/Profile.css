@@ -45,7 +45,6 @@
   background-color: inherit;
   color: inherit;
   border: none;
-
   outline: none;
   text-align: right;
 }
@@ -59,6 +58,11 @@
   color: inherit;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  font-family: 'Inter';
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .profile__edit-button:hover {
@@ -137,4 +141,19 @@
 
 .profile__save-button_inactive:hover {
   opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .profile {
+    margin-top: 236px;
+  }
+  .profile__form {
+    margin-top: 96px;
+  }
+  .profile__edit-button {
+    margin-top: 210px;
+  }
+  .profile__edit-button_quit {
+    margin-top: 16px;
+  }
 }

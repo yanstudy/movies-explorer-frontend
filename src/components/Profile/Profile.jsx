@@ -1,21 +1,34 @@
 import './Profile.css';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
-import { useState } from 'react';
-import AuthButton from '../AuthButton/AuthButton';
+import { useRef, useState } from 'react';
 
 export default function Profile() {
   const [isEditing, setIsEditiong] = useState(false);
-  const [inActive, setInActive] = useState(false);
+  const inputRef = useRef();
+
   const { values, handleChange, errors, isValid, setValues, resetForm } =
     useFormAndValidation({
       name: 'Артур',
       email: '123@mail.ru',
     });
 
+  const handleEditingPossible = (e) => {
+    setIsEditiong(true);
+    inputRef.current.focus();
+  };
+
+  const handleSubmitEditing = (e) => {
+    e.preventDefault();
+  };
+
+  const handleQuit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className='profile'>
       <h3 className='profile__hello'>{`Привет, ${values.name}!`}</h3>
-      <form className='profile__form' noValidate>
+      <form className='profile__form' noValidate onSubmit={handleSubmitEditing}>
         <label htmlFor='name' className='profile__label'>
           Имя
           <input
@@ -27,6 +40,8 @@ export default function Profile() {
             minLength={2}
             maxLength={30}
             onChange={handleChange}
+            ref={inputRef}
+            readOnly={isEditing ? false : true}
           />
           <span className='profile__input-error'>{errors.name}</span>
         </label>
@@ -39,6 +54,7 @@ export default function Profile() {
             name='email'
             type='email'
             onChange={handleChange}
+            readOnly={isEditing ? false : true}
           />
           <span className='profile__input-error'>{errors.email}</span>
         </label>
@@ -50,16 +66,22 @@ export default function Profile() {
             </span>
             <button
               className={`profile__save-button ${
-                inActive ? 'profile__save-button_inactive' : ''
+                !isValid ? 'profile__save-button_inactive' : ''
               }`}
+              type='submit'
             >
               Сохранить
             </button>
           </div>
         ) : (
           <>
-            <p className='profile__edit-button'>Редактировать</p>
-            <button className='profile__edit-button profile__edit-button_quit '>
+            <p className='profile__edit-button' onClick={handleEditingPossible}>
+              Редактировать
+            </p>
+            <button
+              className='profile__edit-button profile__edit-button_quit'
+              onClick={handleQuit}
+            >
               Выйти из аккаунта
             </button>
           </>

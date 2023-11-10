@@ -12,4 +12,38 @@
   line-height: normal;
   letter-spacing: -0.88px;
   text-align: start;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1180px) {
+  .main-title {
+    box-sizing: border-box;
+    max-width: 1064px;
+  }
+}
+
+@media (max-width: 1060px) {
+  .main-title {
+    max-width: 864px;
+  }
+}
+
+@media (max-width: 900px) {
+  .main-title {
+    max-width: 808px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-title {
+    max-width: 668px;
+  }
+}
+
+@media (max-width: 400px) {
+  .main-title {
+    font-size: 18px;
+    letter-spacing: -0.72px;
+    padding-bottom: 28px;
+  }
 }

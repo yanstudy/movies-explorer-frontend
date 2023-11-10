@@ -12,15 +12,63 @@
   margin: 0 auto;
   font-family: 'Inter';
   font-style: normal;
+  margin-top: 20px;
 }
 
 .promo__text {
   max-width: 730px;
   font-weight: 400;
-  line-height: 58px; /* 116% */
+  line-height: 58px;
   letter-spacing: -2px;
   margin: 0;
   padding: 0;
   padding-top: 160px;
   font-size: 50px;
+}
+
+@media (max-width: 1180px) {
+  .promo {
+    max-width: 1064px;
+  }
+}
+
+@media (max-width: 1060px) {
+  .promo {
+    max-width: 908px;
+  }
+}
+
+@media (max-width: 900px) {
+  .promo {
+    max-width: 808px;
+  }
+}
+
+@media (max-width: 768px) {
+  .promo {
+    max-width: 728px;
+    height: 834px;
+  }
+  .promo__text {
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: -1.6px;
+    max-width: 680px;
+    padding-top: 350px;
+  }
+}
+
+@media (max-width: 400px) {
+  .promo {
+    margin-top: 14px;
+    max-width: 292px;
+    height: 586px;
+  }
+  .promo__text {
+    font-size: 29px;
+    line-height: 37px;
+    letter-spacing: -1.16px;
+    padding-top: 220px;
+    max-width: 292px;
+  }
 }
