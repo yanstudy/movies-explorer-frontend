@@ -3,6 +3,7 @@ import AuthInput from '../AuthInput/AuthInput';
 import './Register.css';
 import AuthButton from '../AuthButton/AuthButton';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import AuthError from '../AuthError/AuthError';
 
 export default function Register() {
   const { values, handleChange, errors, isValid, setValues, resetForm } =
@@ -13,7 +14,7 @@ export default function Register() {
     });
 
   return (
-    <form className='register'>
+    <form className='register' noValidate>
       <Auth title='Добро пожаловать!'>
         <AuthInput
           label={'Имя'}
@@ -23,6 +24,8 @@ export default function Register() {
           value={values.name}
           error={errors.name}
           onChange={handleChange}
+          minLength={2}
+          maxLength={30}
         />
         <AuthInput
           label={'E-mail'}
@@ -42,6 +45,7 @@ export default function Register() {
           error={errors.password}
           onChange={handleChange}
         />
+        <AuthError error='Что-то пошло не так...' />
       </Auth>
       <div className='register__button'>
         <AuthButton
@@ -49,6 +53,7 @@ export default function Register() {
           question='Уже зарегистрированы?'
           link='/signin'
           span='Войти'
+          isActive={isValid}
         />
       </div>
     </form>

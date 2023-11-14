@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Logo from '../Logo/Logo';
 import './Header.css';
 import { Link, NavLink } from 'react-router-dom';
+const currentWidth = window.innerWidth;
 
 export default function Header({ isLoggedIn }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -15,8 +16,11 @@ export default function Header({ isLoggedIn }) {
   };
 
   useEffect(() => {
+    if (currentWidth <= 768) {
+      setMobileWidth(true);
+    }
+
     window.addEventListener('resize', () => {
-      const currentWidth = window.innerWidth;
       if (currentWidth <= 768) {
         setMobileWidth(true);
       }

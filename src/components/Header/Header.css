@@ -5,7 +5,7 @@
   margin: 0 auto;
   display: flex;
   align-items: center;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-style: normal;
   justify-content: space-between;
 }
@@ -27,17 +27,22 @@
   right: 0;
   display: flex;
   flex-direction: column;
-  padding-top: 159px;
+  justify-content: space-between;
   align-items: center;
+  padding-top: 159px;
   z-index: 1;
   box-sizing: border-box;
-  justify-content: space-between;
   transition: all 0.3s ease-in-out;
 }
 
 .header__menu-open .header__movies-container {
   flex-direction: column;
   gap: 28px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  left: 0;
 }
 
 .header__menu-open .header__account {
@@ -46,7 +51,8 @@
 }
 
 .header__menu-open .header__movies_active {
-  text-decoration: underline;
+  text-decoration-line: underline;
+  text-underline-offset: 7px;
 }
 
 .header__close-icon {
@@ -118,6 +124,11 @@
   font-weight: 500;
   line-height: 16px;
   text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.header__account-button:hover {
+  opacity: 0.7;
 }
 
 .header__signup {
@@ -140,7 +151,7 @@
   height: 32px;
   font-size: 12px;
   font-weight: 500;
-  line-height: 16px; /* 133.333% */
+  line-height: 16px;
   border-radius: 3px;
   background: #3ddc84;
   text-decoration: none;
@@ -223,5 +234,27 @@
   }
   .header__account {
     gap: 14px;
+  }
+  .header__menu-open {
+    width: 100%;
+    max-width: 400px;
+    padding-top: 144px;
+    align-items: center;
+    height: 780px;
+  }
+  .header__menu-open .header__movies-container {
+    gap: 24px;
+  }
+
+  .header__menu-open .header__account {
+    margin-bottom: 46px;
+  }
+  .header__signin {
+    width: 54px;
+    height: 26px;
+  }
+  .header__burger {
+    width: 40px;
+    height: 43px;
   }
 }

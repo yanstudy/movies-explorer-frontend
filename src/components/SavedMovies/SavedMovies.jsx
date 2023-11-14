@@ -6,7 +6,7 @@ export default function SavedMovies() {
   return (
     <div className='saved-movies'>
       <SearchForm />
-      <MoviesCardList />
+      <MoviesCardList saved />
     </div>
   );
 }

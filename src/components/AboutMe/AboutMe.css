@@ -3,6 +3,8 @@
   margin: 0 auto;
   margin-top: 110px;
   width: 100%;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
 }
 
 .aboutme__container {
@@ -23,6 +25,10 @@
   font-weight: 400;
   line-height: 58px;
   letter-spacing: -2px;
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 58px;
+  letter-spacing: -2px;
 }
 
 .aboutme__job {
@@ -30,6 +36,9 @@
   padding: 0;
   margin-top: 18px;
   font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 20px;
   font-size: 18px;
   font-weight: 500;
   line-height: 20px;
@@ -45,6 +54,7 @@
   max-width: 600px;
   margin-top: 26px;
   margin-bottom: 99px;
+  min-height: 88px;
 }
 
 .aboutme__link {
@@ -125,6 +135,7 @@
     font-size: 12px;
     line-height: 18px;
     max-width: 364px;
+    min-height: 108px;
   }
   .aboutme__photo {
     height: 307px;
@@ -141,13 +152,14 @@
 @media (max-width: 400px) {
   .aboutme {
     padding: 70px 14px;
+    margin-top: 0;
   }
   .aboutme__info {
     order: 2;
   }
   .aboutme__container {
     flex-wrap: wrap;
-    margin-top: 50px;
+    margin-top: 60px;
     gap: 40px;
   }
   .aboutme__photo {
@@ -170,5 +182,6 @@
     line-height: 16px;
     margin-bottom: 40px;
     max-width: 292px;
+    min-height: 112px;
   }
 }

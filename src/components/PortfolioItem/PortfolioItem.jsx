@@ -8,7 +8,7 @@ export default function PortfolioItem({ name, link, withoutBorder }) {
         withoutBorder ? 'portfolio-item_border' : ''
       }`}
     >
-      <a href={link} className='portfolio-item__link'>
+      <a href={link} target='_blank' className='portfolio-item__link'>
         <h3 className='portfolio-item__name'>{name}</h3>
         <img
           src={icon}

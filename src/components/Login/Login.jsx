@@ -1,6 +1,7 @@
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import Auth from '../Auth/Auth';
 import AuthButton from '../AuthButton/AuthButton';
+import AuthError from '../AuthError/AuthError';
 import AuthInput from '../AuthInput/AuthInput';
 import './Login.css';
 
@@ -12,7 +13,7 @@ export default function Login() {
     });
 
   return (
-    <form className='login'>
+    <form className='login' noValidate>
       <Auth title='Рады видеть!'>
         <AuthInput
           label='E-mail'
@@ -32,6 +33,7 @@ export default function Login() {
           onChange={handleChange}
           error={errors.password}
         />
+        <AuthError error='Что-то пошло не так...' />
       </Auth>
       <div className='login__button'>
         <AuthButton
@@ -39,6 +41,7 @@ export default function Login() {
           question='Ещё не зарегистрированы?'
           link='/signup'
           span='Регистрация'
+          isActive={isValid}
         />
       </div>
     </form>

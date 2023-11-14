@@ -7,7 +7,7 @@ export default function Promo({
   scrollToTechs,
 }) {
   return (
-    <div className='promo'>
+    <section className='promo'>
       <h1 className='promo__text'>
         Учебный проект студента факультета Веб-разработки.
       </h1>
@@ -16,6 +16,6 @@ export default function Promo({
         scrollToTechs={scrollToTechs}
         scrollToAboutMe={scrollToAboutMe}
       />
-    </div>
+    </section>
   );
 }

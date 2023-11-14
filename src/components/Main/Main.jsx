@@ -16,22 +16,22 @@ export default function Main() {
   };
 
   return (
-    <div className='main'>
+    <main className='main'>
       <Promo
         scrollToAboutProject={() => scrollToSection(aboutProjectRef)}
         scrollToTechs={() => scrollToSection(techsRef)}
         scrollToAboutMe={() => scrollToSection(aboutMeRef)}
       />
-      <div ref={aboutProjectRef}>
+      <div ref={aboutProjectRef} className='main__ref-section'>
         <AboutProject />
       </div>
-      <div ref={techsRef}>
+      <div ref={techsRef} className='main__ref-section'>
         <Techs />
       </div>
-      <div ref={aboutMeRef}>
+      <div ref={aboutMeRef} className='main__ref-section'>
         <AboutMe />
       </div>
       <Portfolio />
-    </div>
+    </main>
   );
 }

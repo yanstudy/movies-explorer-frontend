@@ -7,13 +7,21 @@ export default function NavTab({
 }) {
   return (
     <div className='navtab'>
-      <button className='navtab__button' onClick={scrollToAboutProject}>
+      <button
+        className='navtab__button'
+        type='button'
+        onClick={scrollToAboutProject}
+      >
         О проекте
       </button>
-      <button className='navtab__button' onClick={scrollToTechs}>
+      <button className='navtab__button' type='button' onClick={scrollToTechs}>
         Технологии
       </button>
-      <button className='navtab__button' onClick={scrollToAboutMe}>
+      <button
+        className='navtab__button'
+        type='button'
+        onClick={scrollToAboutMe}
+      >
         Студент
       </button>
     </div>

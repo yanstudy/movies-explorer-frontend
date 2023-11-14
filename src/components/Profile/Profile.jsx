@@ -81,6 +81,7 @@ export default function Profile() {
             <button
               className='profile__edit-button profile__edit-button_quit'
               onClick={handleQuit}
+              type='button'
             >
               Выйти из аккаунта
             </button>

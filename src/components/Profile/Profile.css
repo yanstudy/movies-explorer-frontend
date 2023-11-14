@@ -6,14 +6,14 @@
   flex-direction: column;
   margin-top: 74px;
   padding-bottom: 70px;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
 }
 .profile__hello {
   margin: 0;
   padding: 0;
   text-align: center;
-  font-family: 'Inter';
   font-size: 24px;
-  font-style: normal;
   font-weight: 500;
   line-height: normal;
 }
@@ -31,6 +31,8 @@
   display: flex;
   justify-content: space-between;
   position: relative;
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .profile__label:first-child {
@@ -47,6 +49,7 @@
   border: none;
   outline: none;
   text-align: right;
+  font-weight: 400;
 }
 
 .profile__edit-button {
@@ -58,11 +61,12 @@
   color: inherit;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin-bottom: 0;
 }
 
 .profile__edit-button:hover {
@@ -93,7 +97,7 @@
   border: none;
   color: inherit;
   text-align: center;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -113,7 +117,7 @@
   top: -31px;
   color: #ff004c;
   text-align: center;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-size: 11px;
   font-style: normal;
   font-weight: 400;
@@ -127,7 +131,7 @@
   right: 0;
   color: #ff004c;
   text-align: center;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-size: 11px;
   font-style: normal;
   font-weight: 400;
@@ -146,6 +150,7 @@
 @media (max-width: 768px) {
   .profile {
     margin-top: 236px;
+    padding-bottom: 40px;
   }
   .profile__form {
     margin-top: 96px;
@@ -155,5 +160,28 @@
   }
   .profile__edit-button_quit {
     margin-top: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .profile {
+    margin-top: 70px;
+  }
+  .profile__form {
+    margin-top: 80px;
+  }
+  .profile__label {
+    max-width: 260px;
+  }
+  .profile__edit-button {
+    margin-top: 379px;
+    font-size: 12px;
+  }
+  .profile__edit-button_quit {
+    margin-top: 16px;
+  }
+  .profile__save-button {
+    font-size: 12px;
+    max-width: 260px;
   }
 }

@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-style: normal;
   background: #272727;
   padding-top: 100px;
@@ -29,7 +29,7 @@
   padding: 0;
   color: #fff;
   text-align: center;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -96,10 +96,14 @@
 @media (max-width: 400px) {
   .tech {
     padding: 70px 18px;
+    background: #202020;
   }
   .tech__title {
     margin-top: 60px;
     margin-bottom: 24px;
+    font-size: 30px;
+    line-height: normal;
+    letter-spacing: -1.2px;
   }
   .tech__items {
     margin-top: 50px;
