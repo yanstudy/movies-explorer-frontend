@@ -1,0 +1,128 @@
+.footer {
+  margin-top: 80px;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-top: 79px;
+}
+
+.footer__title {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  color: #8b8b8b;
+  text-align: center;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+  border-bottom: 1px solid #424242;
+  padding-bottom: 20px;
+}
+
+.footer__year {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding-top: 20px;
+}
+.footer__items {
+  display: flex;
+  gap: 20px;
+  text-align: right;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.footer__yandex {
+  margin: 0;
+  padding: 0;
+}
+
+.footer__github {
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 1180px) {
+  .footer {
+    max-width: 1024px;
+  }
+}
+
+@media (max-width: 1060px) {
+  .footer {
+    max-width: 868px;
+  }
+}
+
+@media (max-width: 900px) {
+  .footer {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 800px) {
+  .footer {
+    max-width: 728px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    max-width: 768px;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 400px) {
+  .footer {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .footer__title {
+    font-size: 12px;
+  }
+  .footer__container {
+    flex-direction: column;
+    padding-top: 30px;
+  }
+  .footer__year {
+    order: 2;
+    margin-top: 30px;
+    font-size: 12px;
+    color: #8b8b8b;
+  }
+  .footer__items {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .footer__yandex {
+    font-size: 12px;
+  }
+  .footer__github {
+    font-size: 12px;
+  }
+}

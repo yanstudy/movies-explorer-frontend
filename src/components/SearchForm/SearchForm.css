@@ -1,0 +1,115 @@
+.searchform {
+  max-width: 1140px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #424242;
+}
+
+.searchform__container {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 28px;
+}
+
+.searchform__input {
+  max-width: 1086px;
+  padding: 0;
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: #2f2f2f;
+  padding-left: 20px;
+  color: white;
+  box-sizing: border-box;
+}
+.searchform__input:focus {
+  outline: 2px ridge rgba(61, 220, 132, 0.6);
+}
+
+.searchform__input::placeholder {
+  color: #8b8b8b;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
+.searchform__button {
+  background-image: url('../../images/find-icon.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 44px;
+  max-width: 44px;
+  height: 44px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.searchform__button:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 1180px) {
+  .searchform {
+    max-width: 1024px;
+  }
+}
+
+@media (max-width: 1060px) {
+  .searchform {
+    max-width: 868px;
+  }
+}
+
+@media (max-width: 900px) {
+  .searchform {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 800px) {
+  .searchform {
+    max-width: 728px;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchform {
+    max-width: 768px;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+  }
+  .searchform__container {
+    padding-bottom: 41px;
+  }
+}
+
+@media (max-width: 400px) {
+  .searchform {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .searchform__container {
+    padding-bottom: 47px;
+  }
+  .searchform__input {
+    padding-left: 13px;
+    height: 44px;
+  }
+}
