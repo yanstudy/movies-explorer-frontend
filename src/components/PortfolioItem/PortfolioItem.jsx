@@ -3,7 +3,7 @@ import icon from '../../images/icon.svg';
 
 export default function PortfolioItem({ name, link, withoutBorder }) {
   return (
-    <div
+    <li
       className={`portfolio-item ${
         withoutBorder ? 'portfolio-item_border' : ''
       }`}
@@ -16,6 +16,6 @@ export default function PortfolioItem({ name, link, withoutBorder }) {
           className='portfolio-item__icon'
         />
       </a>
-    </div>
+    </li>
   );
 }

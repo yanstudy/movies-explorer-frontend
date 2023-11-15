@@ -3,7 +3,7 @@ import './MoviesCardList.css';
 
 export default function MoviesCardList({ saved }) {
   return (
-    <div className='movies-card-list'>
+    <section className='movies-card-list'>
       <div className='movies-card-list__container'>
         <MoviesCard
           link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
@@ -41,6 +41,6 @@ export default function MoviesCardList({ saved }) {
           Ещё
         </button>
       )}
-    </div>
+    </section>
   );
 }

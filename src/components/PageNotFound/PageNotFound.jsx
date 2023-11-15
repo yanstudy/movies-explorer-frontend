@@ -7,12 +7,12 @@ export default function PageNotFound() {
     navigate(-1);
   };
   return (
-    <div className='page-not-found'>
+    <section className='page-not-found'>
       <h1 className='page-not-found__404'>404</h1>
       <h2 className='page-not-found__subtitle'>Страница не найдена</h2>
       <p className='page-not-found__button' onClick={handleReturn}>
         Назад
       </p>
-    </div>
+    </section>
   );
 }

@@ -69,12 +69,9 @@
 }
 
 .aboutme__photo {
-  background-image: url('../../images/photo.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   width: 270px;
   height: 327px;
+  display: block;
 }
 
 .aboutme__link:hover {
@@ -143,9 +140,27 @@
   }
 }
 
+@media (max-width: 552px) {
+  .aboutme__photo {
+    height: 276px;
+    width: 229px;
+  }
+}
+
 @media (max-width: 490px) {
   .aboutme__paragraph {
     max-width: 200px;
+  }
+  .aboutme__photo {
+    height: 223px;
+    width: 185px;
+  }
+}
+
+@media (max-width: 420px) {
+  .aboutme__photo {
+    height: 178px;
+    width: 183px;
   }
 }
 
@@ -161,12 +176,9 @@
     flex-wrap: wrap;
     margin-top: 60px;
     gap: 40px;
+    justify-content: center;
   }
-  .aboutme__photo {
-    height: 352px;
-    max-width: 292px;
-    width: 100%;
-  }
+
   .aboutme__name {
     font-size: 30px;
     line-height: normal;
@@ -183,5 +195,10 @@
     margin-bottom: 40px;
     max-width: 292px;
     min-height: 112px;
+  }
+  .aboutme__photo {
+    height: 352px;
+    width: 292px;
+    align-self: center;
   }
 }

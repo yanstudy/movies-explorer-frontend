@@ -35,13 +35,18 @@
   font-weight: 500;
 }
 
+.profile__label:focus-within {
+  outline: 2px ridge rgba(61, 220, 132, 0.6);
+  border-radius: 5px;
+}
+
 .profile__label:first-child {
   padding-bottom: 16px;
   border-bottom: 1px solid #424242;
 }
 
 .profile__label:last-of-type {
-  margin-top: 17px;
+  padding-top: 17px;
 }
 .profile__input {
   background-color: inherit;

@@ -40,6 +40,11 @@
   height: 46px;
   padding: 15px;
   box-sizing: border-box;
+  outline: none;
+}
+
+.auth-input__input:focus {
+  border: 2px ridge rgba(61, 220, 132, 0.6);
 }
 
 @media (max-width: 430px) {

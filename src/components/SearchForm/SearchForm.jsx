@@ -7,7 +7,7 @@ export default function SearchForm() {
   };
 
   return (
-    <form className='searchform' noValidate onSubmit={handleSearchSubmit}>
+    <form className='searchform' onSubmit={handleSearchSubmit}>
       <div className='searchform__container'>
         <input
           className='searchform__input'

@@ -2,7 +2,7 @@ import './Footer.css';
 
 export default function Footer() {
   return (
-    <div className='footer'>
+    <footer className='footer'>
       <h3 className='footer__title'>
         Учебный проект Яндекс.Практикум х BeatFilm.
       </h3>
@@ -13,6 +13,6 @@ export default function Footer() {
           <p className='footer__github'>Github</p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }

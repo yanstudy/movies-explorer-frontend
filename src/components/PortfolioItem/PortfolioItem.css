@@ -4,6 +4,7 @@
   padding-bottom: 19px;
   border-bottom: 1px solid #424242;
   width: 100%;
+  list-style-type: none;
 }
 
 .portfolio-item_border {

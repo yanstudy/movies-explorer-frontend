@@ -3,7 +3,7 @@ import './Portfolio.css';
 
 export default function Portfolio() {
   return (
-    <section className='portfolio'>
+    <ul className='portfolio'>
       <h3 className='portfolio__title'>Портфолио</h3>
       <PortfolioItem
         name={'Статичный сайт'}
@@ -11,13 +11,13 @@ export default function Portfolio() {
       />
       <PortfolioItem
         name={'Адаптивный сайт'}
-        link={'https://github.com/yanstudy/how-to-learn'}
+        link={'https://yanstudy.github.io/russian-travel/'}
       />
       <PortfolioItem
         name={'Одностраничное приложение'}
         link={'https://yanstudy.nomoredomainsrocks.ru/'}
         withoutBorder
       />
-    </section>
+    </ul>
   );
 }

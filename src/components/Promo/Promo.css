@@ -26,21 +26,11 @@
   font-size: 50px;
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1230px) {
   .promo {
-    max-width: 1064px;
-  }
-}
-
-@media (max-width: 1060px) {
-  .promo {
-    max-width: 908px;
-  }
-}
-
-@media (max-width: 900px) {
-  .promo {
-    max-width: 808px;
+    width: auto;
+    margin-left: 30px;
+    margin-right: 30px;
   }
 }
 
@@ -48,6 +38,8 @@
   .promo {
     max-width: 728px;
     height: 834px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
   .promo__text {
     font-size: 40px;
@@ -63,6 +55,9 @@
     margin-top: 14px;
     max-width: 292px;
     height: 586px;
+    margin-left: 14px;
+    margin-right: 14px;
+    align-self: center;
   }
   .promo__text {
     font-size: 29px;

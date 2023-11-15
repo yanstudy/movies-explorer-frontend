@@ -5,10 +5,10 @@ import './Movies.css';
 
 export default function Movies() {
   return (
-    <div className='movies'>
+    <section className='movies'>
       <SearchForm />
       {/* <Preloader /> */}
       <MoviesCardList />
-    </div>
+    </section>
   );
 }

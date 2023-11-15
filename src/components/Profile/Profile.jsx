@@ -26,7 +26,7 @@ export default function Profile() {
   };
 
   return (
-    <div className='profile'>
+    <section className='profile'>
       <h3 className='profile__hello'>{`Привет, ${values.name}!`}</h3>
       <form className='profile__form' noValidate onSubmit={handleSubmitEditing}>
         <label htmlFor='name' className='profile__label'>
@@ -88,6 +88,6 @@ export default function Profile() {
           </>
         )}
       </form>
-    </div>
+    </section>
   );
 }
