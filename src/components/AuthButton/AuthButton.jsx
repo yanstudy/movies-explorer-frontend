@@ -7,7 +7,7 @@ export default function AuthButton({ title, question, link, span, isActive }) {
       <button
         type='submit'
         className={`auth-button ${!isActive ? 'auth-button_inactive' : ''}`}
-        disabled={isActive}
+        disabled={!isActive}
       >
         {title}
       </button>

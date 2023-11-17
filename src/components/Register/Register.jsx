@@ -4,8 +4,11 @@ import './Register.css';
 import AuthButton from '../AuthButton/AuthButton';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import AuthError from '../AuthError/AuthError';
+import { register } from '../../utils/MainApi';
+import { useState } from 'react';
 
-export default function Register() {
+export default function Register({ onGetCurrentUser }) {
+  const [error, setError] = useState('');
   const { values, handleChange, errors, isValid, setValues, resetForm } =
     useFormAndValidation({
       name: '',
@@ -13,8 +16,24 @@ export default function Register() {
       password: '',
     });
 
+  const handleSubmitRegister = (e) => {
+    e.preventDefault();
+    register(values)
+      .then((user) => {
+        console.log(user);
+        onGetCurrentUser();
+      })
+      .catch((err) => {
+        if (err === 'Ошибка: 409') {
+          setError('Пользователь с таким email уже существует');
+        } else {
+          setError('При регистрации пользователя произошла ошибка');
+        }
+      });
+  };
+
   return (
-    <form className='register' noValidate>
+    <form className='register' noValidate onSubmit={handleSubmitRegister}>
       <Auth title='Добро пожаловать!'>
         <AuthInput
           label={'Имя'}
@@ -45,7 +64,7 @@ export default function Register() {
           error={errors.password}
           onChange={handleChange}
         />
-        <AuthError error='Что-то пошло не так...' />
+        <AuthError error={error} />
       </Auth>
       <div className='register__button'>
         <AuthButton

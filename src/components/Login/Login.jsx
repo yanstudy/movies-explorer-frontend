@@ -1,19 +1,38 @@
+import { useState } from 'react';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import { authorize, getCurrentuser } from '../../utils/MainApi';
 import Auth from '../Auth/Auth';
 import AuthButton from '../AuthButton/AuthButton';
 import AuthError from '../AuthError/AuthError';
 import AuthInput from '../AuthInput/AuthInput';
 import './Login.css';
 
-export default function Login() {
+export default function Login({ onGetCurrentUser }) {
+  const [error, setError] = useState('');
   const { values, handleChange, errors, isValid, setValues, resetForm } =
     useFormAndValidation({
       email: '',
       password: '',
     });
 
+  const handleSubmitLogin = (e) => {
+    e.preventDefault();
+    authorize(values)
+      .then((data) => {
+        console.log(data.message);
+        onGetCurrentUser();
+      })
+      .catch((err) => {
+        if (err === 'Ошибка: 400') {
+          setError('Вы ввели неправильный логин или пароль');
+        } else {
+          setError('При авторизации произошла ошибка');
+        }
+      });
+  };
+
   return (
-    <form className='login' noValidate>
+    <form className='login' noValidate onSubmit={handleSubmitLogin}>
       <Auth title='Рады видеть!'>
         <AuthInput
           label='E-mail'
@@ -33,7 +52,7 @@ export default function Login() {
           onChange={handleChange}
           error={errors.password}
         />
-        <AuthError error='Что-то пошло не так...' />
+        <AuthError error={error} />
       </Auth>
       <div className='login__button'>
         <AuthButton

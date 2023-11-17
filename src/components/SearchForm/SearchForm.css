@@ -17,7 +17,8 @@
   gap: 10px;
   justify-content: center;
   align-items: center;
-  padding-bottom: 28px;
+  margin-bottom: 28px;
+  position: relative;
 }
 
 .searchform__input {
@@ -96,7 +97,7 @@
     box-sizing: border-box;
   }
   .searchform__container {
-    padding-bottom: 41px;
+    margin-bottom: 41px;
   }
 }
 
@@ -106,7 +107,7 @@
     padding-right: 14px;
   }
   .searchform__container {
-    padding-bottom: 47px;
+    margin-bottom: 47px;
   }
   .searchform__input {
     padding-left: 13px;

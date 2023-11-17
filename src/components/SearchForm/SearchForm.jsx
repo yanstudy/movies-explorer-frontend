@@ -1,13 +1,24 @@
+import { useRef, useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import './SearchForm.css';
+import AuthError from '../AuthError/AuthError';
 
-export default function SearchForm() {
+export default function SearchForm({ onGetResult }) {
+  const [error, setError] = useState('');
+  const inputRef = useRef();
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    if (inputRef.current.value === '') {
+      setError('Нужно ввести ключевое слово');
+      setTimeout(() => {
+        setError('');
+      }, 2000);
+    } else onGetResult(inputRef.current.value);
   };
 
   return (
-    <form className='searchform' onSubmit={handleSearchSubmit}>
+    <form className='searchform' onSubmit={handleSearchSubmit} noValidate>
       <div className='searchform__container'>
         <input
           className='searchform__input'
@@ -15,8 +26,10 @@ export default function SearchForm() {
           name='movieInput'
           placeholder='Фильм'
           required
+          ref={inputRef}
         ></input>
         <button className='searchform__button' type='submit'></button>
+        {error && <AuthError error={error} />}
       </div>
       <FilterCheckbox />
     </form>

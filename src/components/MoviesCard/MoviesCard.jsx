@@ -36,7 +36,9 @@ export default function MoviesCard({ link, name, duration, saved }) {
       )}
       <div className='moviescard__info'>
         <p className='moviescard__name'>{name}</p>
-        <p className='moviescard__duration'>{duration}</p>
+        <p className='moviescard__duration'>{`${Math.round(duration / 60)}ч ${
+          duration % 60
+        }м`}</p>
       </div>
     </div>
   );
