@@ -28,6 +28,7 @@ export default function SearchForm({
       inputRef.current.value = key;
     }
   }, []);
+
   return (
     <form className='searchform' onSubmit={handleSearchSubmit} noValidate>
       <div className='searchform__container'>

@@ -20,14 +20,8 @@ function App() {
     localStorage.getItem('loggedIn') || false
   );
   const [currentUser, setCurrentUser] = useState({});
-  const [movies, setMovies] = useState(
-    JSON.parse(localStorage.getItem('movies')) || []
-  );
+
   const [savedMovies, setSavedMovies] = useState([]);
-  const [errorDuringSearchMovies, setErrorDuringSearchMovies] = useState('');
-  const [isLoadingMovies, setIsLoadingMovies] = useState(false);
-  const [isSearchPerformed, setIsSearchPerformed] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
 
   const location = useLocation();
   const isAuthRoute =
@@ -58,62 +52,11 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    localStorage.setItem('isChecked', !isChecked);
-    if (movies) {
-      setMovies((prevMovies) => {
-        const filteredMovies = prevMovies.filter((film) => film.duration <= 40);
-        return filteredMovies;
-      });
-    }
-  };
-
   useEffect(() => {
     if (isLoggedIn) {
       getSavedMovies();
     }
   }, []);
-
-  // Получить все фильмы, удовлетворяющие поиску
-  const getFilms = (keyWord) => {
-    setIsLoadingMovies(true);
-    getFilmsApi()
-      .then((films) => {
-        console.log(films);
-        const filteredMovies = films.filter(
-          (film) =>
-            film.nameRU.toLowerCase().includes(keyWord.toLowerCase()) ||
-            film.nameEN
-              .toLowerCase()
-              .includes(' ' + keyWord.toLowerCase() + ' ')
-        );
-        const shortFilms = filteredMovies.filter((film) => film.duration <= 40);
-        if (isChecked) {
-          setMovies(shortFilms);
-          setIsLoadingMovies(false);
-          setIsSearchPerformed(true);
-          localStorage.setItem('movies', JSON.stringify(shortFilms));
-        } else {
-          setMovies(filteredMovies);
-          setIsLoadingMovies(false);
-          setIsSearchPerformed(true);
-          localStorage.setItem('movies', JSON.stringify(filteredMovies));
-        }
-
-        localStorage.setItem('isChecked', isChecked);
-        localStorage.setItem('keyword', keyWord);
-      })
-      .catch((err) => {
-        setIsLoadingMovies(false);
-        setIsSearchPerformed(true);
-        setErrorDuringSearchMovies(
-          `Во время запроса произошла ошибка. 
-          Возможно, проблема с соединением или сервер недоступен. 
-          Подождите немного и попробуйте ещё раз`
-        );
-      });
-  };
 
   const logOutCb = async () => {
     await logOut()
@@ -131,17 +74,6 @@ function App() {
   const editUserCb = (user) => {
     setCurrentUser(user);
   };
-
-  // Проверить есть ли параметры поиска в localStorage. Если есть - взять оттуда
-  useEffect(() => {
-    const storedMovies = JSON.parse(localStorage.getItem('movies'));
-    const isCheckedValue = localStorage.getItem('isChecked') === 'true';
-    if (storedMovies) {
-      setMovies(storedMovies);
-      setIsChecked(isCheckedValue);
-      setIsSearchPerformed(true);
-    }
-  }, []);
 
   // Поиск по сохранённым фильмам
   const onSearchMyMovies = (keyWord) => {
@@ -196,14 +128,7 @@ function App() {
             element={
               <ProtectedRoute onlyAuth user={currentUser}>
                 <Movies
-                  onSearchMovies={getFilms}
-                  isLoadingMovies={isLoadingMovies}
-                  isSearchPerformed={isSearchPerformed}
-                  movies={movies}
-                  errorDuringSearchMovies={errorDuringSearchMovies}
                   savedMovies={savedMovies}
-                  onCheckboxChange={handleCheckboxChange}
-                  isChecked={isChecked}
                   addNewMovieToList={handleAddingNewMovieToList}
                   onRemoveMovie={handleRemoveMovie}
                 />
@@ -217,10 +142,8 @@ function App() {
                 <SavedMovies
                   showSavedMovies={getSavedMovies}
                   savedMovies={savedMovies}
-                  movies={movies}
                   saved={true}
                   onRemoveMovie={handleRemoveMovie}
-                  isChecked={isChecked}
                   onSearchMyMovies={onSearchMyMovies}
                 />
               </ProtectedRoute>

@@ -1,43 +1,46 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
-export function useSearch(initialValues) {
-  const [movies, setMovies] = useState(initialValues);
+export function useSearch() {
+  const [searchedMovies, setSearchedMovies] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
-  const [keyWord, setKeyWord] = useState('');
-  const [isSearchPerformed, setIsSearchPerformed] = useState(false);
-  const [isLoadingMovies, setIsLoadingMovies] = useState(false);
 
-  const performSearch = (e) => {
-    setIsLoadingMovies(true);
-    const filteredMovies = movies.filter(
-      (film) =>
-        film.nameRU.toLowerCase().includes(keyWord.toLowerCase()) ||
-        film.nameEN.toLowerCase().includes(keyWord.toLowerCase())
-    );
-    const shortFilms = filteredMovies.filter((film) => film.duration <= 40);
-    if (isChecked) {
-      setMovies(shortFilms);
-      setIsLoadingMovies(false);
-      setIsSearchPerformed(true);
-      localStorage.setItem('movies', JSON.stringify(shortFilms));
-    } else {
-      setMovies(filteredMovies);
-      setIsLoadingMovies(false);
-      setIsSearchPerformed(true);
-      localStorage.setItem('movies', JSON.stringify(filteredMovies));
-    }
+  const performSearch = (keyWord) => {
+    setSearchedMovies((prevMovies) => {
+      const filteredMovies = prevMovies.filter(
+        (film) =>
+          film.nameRU.toLowerCase().includes(keyWord.toLowerCase()) ||
+          film.nameEN.toLowerCase().includes(keyWord.toLowerCase())
+      );
+      const shortFilms = filteredMovies.filter((film) => film.duration <= 40);
+      if (isChecked) {
+        localStorage.setItem('movies', JSON.stringify(shortFilms));
+        return shortFilms;
+      } else {
+        localStorage.setItem('movies', JSON.stringify(filteredMovies));
+        return filteredMovies;
+      }
+    });
 
     localStorage.setItem('isChecked', isChecked);
     localStorage.setItem('keyword', keyWord);
   };
 
+  const handleCheckboxChange = useCallback(() => {
+    setIsChecked((prevIsChecked) => !prevIsChecked);
+    localStorage.setItem('isChecked', !isChecked);
+
+    setSearchedMovies((prevMovies) => {
+      const filteredMovies = prevMovies.filter((film) => film.duration <= 40);
+      return filteredMovies;
+    });
+  }, [isChecked]);
+
   return {
-    movies,
+    searchedMovies,
     performSearch,
+    handleCheckboxChange,
     isChecked,
     setIsChecked,
-    setKeyWord,
-    isSearchPerformed,
-    isLoadingMovies,
+    setSearchedMovies,
   };
 }
