@@ -20,8 +20,7 @@ export default function Register({ onGetCurrentUser }) {
     e.preventDefault();
     register(values)
       .then((user) => {
-        console.log(user);
-        onGetCurrentUser();
+        onGetCurrentUser(user);
       })
       .catch((err) => {
         if (err === 'Ошибка: 409') {

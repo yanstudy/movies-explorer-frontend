@@ -10,7 +10,6 @@ export const register = ({ name, email, password }) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    // credentials: 'include',
     body: JSON.stringify({ name, password, email }),
   }).then((response) => checkResponse(response));
 };
@@ -54,5 +53,36 @@ export const editUser = ({ name, email }) => {
     },
     credentials: 'include',
     body: JSON.stringify({ name, email }),
+  }).then((response) => checkResponse(response).then((data) => data));
+};
+
+export const saveMovie = (movie) => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(movie),
+  }).then((response) => checkResponse(response).then((data) => data));
+};
+
+export const deleteMovie = (movieId) => {
+  return fetch(`${BASE_URL}/movies/${movieId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  }).then((response) => checkResponse(response).then((data) => data));
+};
+
+export const getMovies = () => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
   }).then((response) => checkResponse(response).then((data) => data));
 };

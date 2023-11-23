@@ -50,6 +50,7 @@
   right: 14px;
   top: 14px;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .moviescard__delete {
