@@ -1,11 +1,11 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
-import SavedMovies from '../SavedMovies/SavedMovies';
+import { SavedMovies } from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
@@ -13,21 +13,20 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import { getCurrentUser, getMovies, logOut } from '../../utils/MainApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-import { getFilmsApi } from '../../utils/MoviesApi';
+import { filterMovies, getShortMovies } from '../../utils/utils';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem('loggedIn') || false
   );
   const [currentUser, setCurrentUser] = useState({});
-  const [movies, setMovies] = useState(
-    JSON.parse(localStorage.getItem('movies')) || []
-  );
   const [savedMovies, setSavedMovies] = useState([]);
-  const [errorDuringSearchMovies, setErrorDuringSearchMovies] = useState('');
-  const [isLoadingMovies, setIsLoadingMovies] = useState(false);
-  const [isSearchPerformed, setIsSearchPerformed] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [unfilteredSavedMovies, setUnfilteredSavedMovies] = useState([]);
+  const [isCheckedSavedMovies, setIsCheckedSavedMovies] = useState(false);
+  const [keyWordSavedMovies, setKeyWordSavedMovies] = useState('');
+
+  const [isSearchPerformedSavedMovies, setIsSearchPerformedSavedMovies] =
+    useState(false);
 
   const location = useLocation();
   const isAuthRoute =
@@ -50,70 +49,19 @@ function App() {
   };
 
   // Получить все сохранённые фильмы
-  const getSavedMovies = () => {
+  const getSavedMovies = useCallback(() => {
     getMovies()
       .then((movies) => {
         setSavedMovies(movies);
       })
       .catch((err) => console.log(err));
-  };
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    localStorage.setItem('isChecked', !isChecked);
-    if (movies) {
-      setMovies((prevMovies) => {
-        const filteredMovies = prevMovies.filter((film) => film.duration <= 40);
-        return filteredMovies;
-      });
-    }
-  };
+  }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
       getSavedMovies();
     }
-  }, []);
-
-  // Получить все фильмы, удовлетворяющие поиску
-  const getFilms = (keyWord) => {
-    setIsLoadingMovies(true);
-    getFilmsApi()
-      .then((films) => {
-        console.log(films);
-        const filteredMovies = films.filter(
-          (film) =>
-            film.nameRU.toLowerCase().includes(keyWord.toLowerCase()) ||
-            film.nameEN
-              .toLowerCase()
-              .includes(' ' + keyWord.toLowerCase() + ' ')
-        );
-        const shortFilms = filteredMovies.filter((film) => film.duration <= 40);
-        if (isChecked) {
-          setMovies(shortFilms);
-          setIsLoadingMovies(false);
-          setIsSearchPerformed(true);
-          localStorage.setItem('movies', JSON.stringify(shortFilms));
-        } else {
-          setMovies(filteredMovies);
-          setIsLoadingMovies(false);
-          setIsSearchPerformed(true);
-          localStorage.setItem('movies', JSON.stringify(filteredMovies));
-        }
-
-        localStorage.setItem('isChecked', isChecked);
-        localStorage.setItem('keyword', keyWord);
-      })
-      .catch((err) => {
-        setIsLoadingMovies(false);
-        setIsSearchPerformed(true);
-        setErrorDuringSearchMovies(
-          `Во время запроса произошла ошибка. 
-          Возможно, проблема с соединением или сервер недоступен. 
-          Подождите немного и попробуйте ещё раз`
-        );
-      });
-  };
+  }, [isLoggedIn, getSavedMovies]);
 
   const logOutCb = async () => {
     await logOut()
@@ -132,31 +80,34 @@ function App() {
     setCurrentUser(user);
   };
 
-  // Проверить есть ли параметры поиска в localStorage. Если есть - взять оттуда
-  useEffect(() => {
-    const storedMovies = JSON.parse(localStorage.getItem('movies'));
-    const isCheckedValue = localStorage.getItem('isChecked') === 'true';
-    if (storedMovies) {
-      setMovies(storedMovies);
-      setIsChecked(isCheckedValue);
-      setIsSearchPerformed(true);
-    }
-  }, []);
-
   // Поиск по сохранённым фильмам
-  const onSearchMyMovies = (keyWord) => {
+  const onSearchMyMovies = (keyword) => {
+    setKeyWordSavedMovies(keyword);
     setSavedMovies((allMovies) => {
-      const filteredMovies = allMovies.filter((film) =>
-        film.nameRU
-          .toLowerCase()
-          .includes(
-            keyWord.toLowerCase() ||
-              film.nameEN.toLowerCase().includes(keyWord.toLowerCase())
-          )
-      );
-      return filteredMovies;
+      return filterMovies(allMovies, keyword);
     });
+    setIsSearchPerformedSavedMovies(true);
   };
+
+  const onCheckboxChangeSavedMovies = () => {
+    setIsCheckedSavedMovies((prevIsChecked) => !prevIsChecked);
+
+    if (isCheckedSavedMovies) {
+      const filteredMovies = filterMovies(
+        unfilteredSavedMovies,
+        keyWordSavedMovies
+      );
+      setSavedMovies(filteredMovies);
+    } else {
+      setSavedMovies((prevMovies) => {
+        const shortMovies = getShortMovies(prevMovies);
+        setUnfilteredSavedMovies(prevMovies);
+        return shortMovies;
+      });
+    }
+    setIsSearchPerformedSavedMovies(true);
+  };
+
   // Запросить и установить текущего пользователя
   useEffect(() => {
     if (isLoggedIn) {
@@ -168,14 +119,14 @@ function App() {
     }
   }, [isLoggedIn]);
 
-  const handleAddingNewMovieToList = (newMovie) => {
-    setSavedMovies((prevState) => [...prevState, newMovie]);
-  };
-
   const handleRemoveMovie = (id) => {
     setSavedMovies((prevSavedMovies) =>
       prevSavedMovies.filter((movie) => movie._id !== id)
     );
+  };
+
+  const addNewMovieToCardList = (movie) => {
+    setSavedMovies((prevMovies) => [...prevMovies, movie]);
   };
 
   return (
@@ -196,16 +147,9 @@ function App() {
             element={
               <ProtectedRoute onlyAuth user={currentUser}>
                 <Movies
-                  onSearchMovies={getFilms}
-                  isLoadingMovies={isLoadingMovies}
-                  isSearchPerformed={isSearchPerformed}
-                  movies={movies}
-                  errorDuringSearchMovies={errorDuringSearchMovies}
                   savedMovies={savedMovies}
-                  onCheckboxChange={handleCheckboxChange}
-                  isChecked={isChecked}
-                  addNewMovieToList={handleAddingNewMovieToList}
                   onRemoveMovie={handleRemoveMovie}
+                  addNewMovieToList={addNewMovieToCardList}
                 />
               </ProtectedRoute>
             }
@@ -217,11 +161,11 @@ function App() {
                 <SavedMovies
                   showSavedMovies={getSavedMovies}
                   savedMovies={savedMovies}
-                  movies={movies}
                   saved={true}
                   onRemoveMovie={handleRemoveMovie}
-                  isChecked={isChecked}
                   onSearchMyMovies={onSearchMyMovies}
+                  onCheckboxChange={onCheckboxChangeSavedMovies}
+                  isSearchPerformed={isSearchPerformedSavedMovies}
                 />
               </ProtectedRoute>
             }
