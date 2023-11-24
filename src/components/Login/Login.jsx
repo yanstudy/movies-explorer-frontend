@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
-import { authorize, getCurrentuser } from '../../utils/MainApi';
+import { authorize } from '../../utils/MainApi';
 import Auth from '../Auth/Auth';
 import AuthButton from '../AuthButton/AuthButton';
 import AuthError from '../AuthError/AuthError';
@@ -9,7 +9,7 @@ import './Login.css';
 
 export default function Login({ onGetCurrentUser }) {
   const [error, setError] = useState('');
-  const { values, handleChange, errors, isValid, setValues, resetForm } =
+  const { values, handleChange, errors, isValid } =
     useFormAndValidation({
       email: '',
       password: '',

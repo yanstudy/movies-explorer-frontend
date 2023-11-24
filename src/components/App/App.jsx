@@ -1,11 +1,11 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
-import SavedMovies from '../SavedMovies/SavedMovies';
+import { SavedMovies } from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
@@ -13,15 +13,20 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import { getCurrentUser, getMovies, logOut } from '../../utils/MainApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-import { getFilmsApi } from '../../utils/MoviesApi';
+import { filterMovies, getShortMovies } from '../../utils/utils';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem('loggedIn') || false
   );
   const [currentUser, setCurrentUser] = useState({});
-
   const [savedMovies, setSavedMovies] = useState([]);
+  const [unfilteredSavedMovies, setUnfilteredSavedMovies] = useState([]);
+  const [isCheckedSavedMovies, setIsCheckedSavedMovies] = useState(false);
+  const [keyWordSavedMovies, setKeyWordSavedMovies] = useState('');
+
+  const [isSearchPerformedSavedMovies, setIsSearchPerformedSavedMovies] =
+    useState(false);
 
   const location = useLocation();
   const isAuthRoute =
@@ -44,19 +49,19 @@ function App() {
   };
 
   // Получить все сохранённые фильмы
-  const getSavedMovies = () => {
+  const getSavedMovies = useCallback(() => {
     getMovies()
       .then((movies) => {
         setSavedMovies(movies);
       })
       .catch((err) => console.log(err));
-  };
+  }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
       getSavedMovies();
     }
-  }, []);
+  }, [isLoggedIn, getSavedMovies]);
 
   const logOutCb = async () => {
     await logOut()
@@ -76,19 +81,33 @@ function App() {
   };
 
   // Поиск по сохранённым фильмам
-  const onSearchMyMovies = (keyWord) => {
+  const onSearchMyMovies = (keyword) => {
+    setKeyWordSavedMovies(keyword);
     setSavedMovies((allMovies) => {
-      const filteredMovies = allMovies.filter((film) =>
-        film.nameRU
-          .toLowerCase()
-          .includes(
-            keyWord.toLowerCase() ||
-              film.nameEN.toLowerCase().includes(keyWord.toLowerCase())
-          )
-      );
-      return filteredMovies;
+      return filterMovies(allMovies, keyword);
     });
+    setIsSearchPerformedSavedMovies(true);
   };
+
+  const onCheckboxChangeSavedMovies = () => {
+    setIsCheckedSavedMovies((prevIsChecked) => !prevIsChecked);
+
+    if (isCheckedSavedMovies) {
+      const filteredMovies = filterMovies(
+        unfilteredSavedMovies,
+        keyWordSavedMovies
+      );
+      setSavedMovies(filteredMovies);
+    } else {
+      setSavedMovies((prevMovies) => {
+        const shortMovies = getShortMovies(prevMovies);
+        setUnfilteredSavedMovies(prevMovies);
+        return shortMovies;
+      });
+    }
+    setIsSearchPerformedSavedMovies(true);
+  };
+
   // Запросить и установить текущего пользователя
   useEffect(() => {
     if (isLoggedIn) {
@@ -100,14 +119,14 @@ function App() {
     }
   }, [isLoggedIn]);
 
-  const handleAddingNewMovieToList = (newMovie) => {
-    setSavedMovies((prevState) => [...prevState, newMovie]);
-  };
-
   const handleRemoveMovie = (id) => {
     setSavedMovies((prevSavedMovies) =>
       prevSavedMovies.filter((movie) => movie._id !== id)
     );
+  };
+
+  const addNewMovieToCardList = (movie) => {
+    setSavedMovies((prevMovies) => [...prevMovies, movie]);
   };
 
   return (
@@ -129,8 +148,8 @@ function App() {
               <ProtectedRoute onlyAuth user={currentUser}>
                 <Movies
                   savedMovies={savedMovies}
-                  addNewMovieToList={handleAddingNewMovieToList}
                   onRemoveMovie={handleRemoveMovie}
+                  addNewMovieToList={addNewMovieToCardList}
                 />
               </ProtectedRoute>
             }
@@ -145,6 +164,8 @@ function App() {
                   saved={true}
                   onRemoveMovie={handleRemoveMovie}
                   onSearchMyMovies={onSearchMyMovies}
+                  onCheckboxChange={onCheckboxChangeSavedMovies}
+                  isSearchPerformed={isSearchPerformedSavedMovies}
                 />
               </ProtectedRoute>
             }

@@ -3,7 +3,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 import './SavedMovies.css';
 
-export default function SavedMovies({
+export const SavedMovies = ({
   showSavedMovies,
   movies,
   savedMovies,
@@ -11,10 +11,12 @@ export default function SavedMovies({
   onRemoveMovie,
   isChecked,
   onSearchMyMovies,
-}) {
+  onCheckboxChange,
+  isSearchPerformed,
+}) => {
   useEffect(() => {
     showSavedMovies();
-  }, []);
+  }, [showSavedMovies]);
 
   return (
     <section className='saved-movies'>
@@ -22,13 +24,17 @@ export default function SavedMovies({
         saved={saved}
         isChecked={isChecked}
         onGetResult={onSearchMyMovies}
+        onCheckboxChange={onCheckboxChange}
       />
-      <MoviesCardList
-        movies={movies}
-        savedMovies={savedMovies}
-        saved={saved}
-        onRemoveMovie={onRemoveMovie}
-      />
+      {isSearchPerformed && !savedMovies.length ? (
+        <p className='movies__message'>Ничего не найдено</p>
+      ) : (
+        <MoviesCardList
+          savedMovies={savedMovies}
+          saved={saved}
+          onRemoveMovie={onRemoveMovie}
+        />
+      )}
     </section>
   );
-}
+};

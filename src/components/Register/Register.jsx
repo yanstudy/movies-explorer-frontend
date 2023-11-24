@@ -9,12 +9,11 @@ import { useState } from 'react';
 
 export default function Register({ onGetCurrentUser }) {
   const [error, setError] = useState('');
-  const { values, handleChange, errors, isValid, setValues, resetForm } =
-    useFormAndValidation({
-      name: '',
-      email: '',
-      password: '',
-    });
+  const { values, handleChange, errors, isValid } = useFormAndValidation({
+    name: '',
+    email: '',
+    password: '',
+  });
 
   const handleSubmitRegister = (e) => {
     e.preventDefault();
