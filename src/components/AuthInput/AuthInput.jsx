@@ -10,6 +10,7 @@ export default function AuthInput({
   error,
   minLength,
   maxLength,
+  pattern,
 }) {
   return (
     <div className='auth-input'>
@@ -25,6 +26,7 @@ export default function AuthInput({
         onChange={onChange}
         minLength={minLength}
         maxLength={maxLength}
+        pattern={pattern}
         required
       />
       <span className='auth-input_error'>{error}</span>

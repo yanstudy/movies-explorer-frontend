@@ -7,14 +7,24 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 export default function Profile({ quitCb, onEditUser }) {
   const [isEditing, setIsEditiong] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const inputRef = useRef();
   const user = useContext(CurrentUserContext);
 
-  const { values, handleChange, errors, isValid, setValues, resetForm } =
-    useFormAndValidation({
-      name: user && user.name ? user.name : '',
-      email: user && user.email ? user.email : '',
-    });
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    setIsValid,
+    setValues,
+    resetForm,
+  } = useFormAndValidation({
+    name: user && user.name ? user.name : '',
+    email: user && user.email ? user.email : '',
+  });
 
   const handleEditingPossible = (e) => {
     setIsEditiong(true);
@@ -23,6 +33,8 @@ export default function Profile({ quitCb, onEditUser }) {
 
   const handleSubmitEditing = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
     setError('');
     editUser(values)
       .then((newUserData) => {
@@ -30,6 +42,8 @@ export default function Profile({ quitCb, onEditUser }) {
         setIsEditiong(false);
         resetForm();
         setValues(newUserData);
+        setIsSuccess(true);
+        setTimeout(() => setIsSuccess(false), 3000);
       })
       .catch((err) => {
         if (err === 'Ошибка: 409') {
@@ -37,6 +51,9 @@ export default function Profile({ quitCb, onEditUser }) {
         } else {
           setError('При обновлении профиля произошла ошибка');
         }
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -63,6 +80,7 @@ export default function Profile({ quitCb, onEditUser }) {
             onChange={handleChange}
             ref={inputRef}
             readOnly={isEditing ? false : true}
+            pattern='^[a-zA-Zа-яА-Я]+[a-zA-Zа-яА-Я\- ]*$'
             required
           />
           <span className='profile__input-error'>{errors.name}</span>
@@ -80,6 +98,11 @@ export default function Profile({ quitCb, onEditUser }) {
             required
           />
           <span className='profile__input-error'>{errors.email}</span>
+          {isSuccess && (
+            <span className='profile__api-success'>
+              Профиль успешно обновлён
+            </span>
+          )}
         </label>
 
         {isEditing ? (
@@ -87,10 +110,10 @@ export default function Profile({ quitCb, onEditUser }) {
             <span className='profile__api-error'>{error}</span>
             <button
               className={`profile__save-button ${
-                !isValid ? 'profile__save-button_inactive' : ''
+                !isValid || isLoading ? 'profile__save-button_inactive' : ''
               }`}
               type='submit'
-              disabled={!isValid}
+              disabled={!isValid || isLoading}
             >
               Сохранить
             </button>

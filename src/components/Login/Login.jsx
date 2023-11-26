@@ -9,13 +9,14 @@ import './Login.css';
 
 export default function Login({ onGetCurrentUser }) {
   const [error, setError] = useState('');
-  const { values, handleChange, errors, isValid } =
-    useFormAndValidation({
-      email: '',
-      password: '',
-    });
+  const [isLoading, setIsLoading] = useState(false);
+  const { values, handleChange, errors, isValid } = useFormAndValidation({
+    email: '',
+    password: '',
+  });
 
   const handleSubmitLogin = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     authorize(values)
       .then((data) => {
@@ -28,7 +29,8 @@ export default function Login({ onGetCurrentUser }) {
         } else {
           setError('При авторизации произошла ошибка');
         }
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -60,7 +62,7 @@ export default function Login({ onGetCurrentUser }) {
           question='Ещё не зарегистрированы?'
           link='/signup'
           span='Регистрация'
-          isActive={isValid}
+          isActive={isValid || isLoading}
         />
       </div>
     </form>

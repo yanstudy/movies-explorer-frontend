@@ -8,6 +8,7 @@ export default function SearchForm({
   onCheckboxChange,
   isChecked,
   saved,
+  isLoadingMovies,
 }) {
   const [error, setError] = useState('');
   const inputRef = useRef();
@@ -27,7 +28,7 @@ export default function SearchForm({
     if (key && !saved) {
       inputRef.current.value = key;
     }
-  }, []);
+  }, [saved]);
 
   return (
     <form className='searchform' onSubmit={handleSearchSubmit} noValidate>
@@ -40,7 +41,13 @@ export default function SearchForm({
           required
           ref={inputRef}
         ></input>
-        <button className='searchform__button' type='submit'></button>
+        <button
+          className={`searchform__button ${
+            isLoadingMovies ? 'searchform__button_inactive' : ''
+          }`}
+          type='submit'
+          disabled={isLoadingMovies}
+        ></button>
         {error && <AuthError error={error} />}
       </div>
       <FilterCheckbox

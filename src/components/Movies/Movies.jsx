@@ -89,6 +89,7 @@ export default function Movies({
         onGetResult={handleSearchMovies}
         isChecked={isChecked}
         onCheckboxChange={handleCheckboxChange}
+        isLoadingMovies={isLoadingMovies}
       />
       {isLoadingMovies ? (
         <Preloader />

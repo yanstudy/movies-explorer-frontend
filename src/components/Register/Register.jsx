@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 export default function Register({ onGetCurrentUser }) {
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { values, handleChange, errors, isValid } = useFormAndValidation({
     name: '',
     email: '',
@@ -16,6 +17,7 @@ export default function Register({ onGetCurrentUser }) {
   });
 
   const handleSubmitRegister = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     register(values)
       .then((user) => {
@@ -27,11 +29,12 @@ export default function Register({ onGetCurrentUser }) {
         } else {
           setError('При регистрации пользователя произошла ошибка');
         }
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
-    <form className='register' noValidate onSubmit={handleSubmitRegister}>
+    <form className='register' onSubmit={handleSubmitRegister}>
       <Auth title='Добро пожаловать!'>
         <AuthInput
           label={'Имя'}
@@ -41,6 +44,7 @@ export default function Register({ onGetCurrentUser }) {
           value={values.name}
           error={errors.name}
           onChange={handleChange}
+          pattern='^[a-zA-Zа-яА-Я]+[a-zA-Zа-яА-Я\- ]*$'
           minLength={2}
           maxLength={30}
         />
@@ -70,7 +74,7 @@ export default function Register({ onGetCurrentUser }) {
           question='Уже зарегистрированы?'
           link='/signin'
           span='Войти'
-          isActive={isValid}
+          isActive={isValid || isLoading}
         />
       </div>
     </form>
