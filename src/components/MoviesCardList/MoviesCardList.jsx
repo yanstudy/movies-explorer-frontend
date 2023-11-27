@@ -9,7 +9,6 @@ export default function MoviesCardList({
   addNewMovieToList,
   onRemoveMovie,
 }) {
-  const [currentWidth, setCurrentWidth] = useState(window.innerWidth);
   const [destkopWidth, setDesktopWidth] = useState(false);
   const [averageWidth, setAverageWidth] = useState(false);
   const [mobileWidth, setMobileWidth] = useState(false);
@@ -18,12 +17,12 @@ export default function MoviesCardList({
   useEffect(() => {
     const handleResize = () => {
       const newWidth = window.innerWidth;
-      setCurrentWidth(newWidth);
 
       if (newWidth >= 1060) {
         setDesktopWidth(true);
         setAverageWidth(false);
         setMobileWidth(false);
+        setCurrentAmountOfMovies(11);
       } else if (newWidth <= 1060 && newWidth > 555) {
         setDesktopWidth(false);
         setAverageWidth(true);

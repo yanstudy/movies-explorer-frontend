@@ -126,6 +126,17 @@
   }
 }
 
+@media (max-width: 555px) {
+  .moviescard__save-button {
+    visibility: visible;
+    opacity: 1;
+  }
+  .moviescard__delete {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
 @media (max-width: 400px) {
   .moviescard {
     margin-top: 36px;

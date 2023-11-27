@@ -27,16 +27,15 @@ export default function Movies({
         const shortFilms = getShortMovies(films);
         if (isChecked) {
           setMovies(shortFilms);
-          setIsLoadingMovies(false);
-          setIsSearchPerformed(true);
+
           localStorage.setItem('movies', JSON.stringify(shortFilms));
         } else {
           setMovies(filteredMovies);
-          setIsLoadingMovies(false);
-          setIsSearchPerformed(true);
+
           localStorage.setItem('movies', JSON.stringify(filteredMovies));
         }
-
+        setIsLoadingMovies(false);
+        setIsSearchPerformed(true);
         localStorage.setItem('isChecked', isChecked);
         localStorage.setItem('keyword', keyword);
       })

@@ -1,6 +1,6 @@
 import './App.css';
 import { useCallback, useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
@@ -24,9 +24,10 @@ function App() {
   const [unfilteredSavedMovies, setUnfilteredSavedMovies] = useState([]);
   const [isCheckedSavedMovies, setIsCheckedSavedMovies] = useState(false);
   const [keyWordSavedMovies, setKeyWordSavedMovies] = useState('');
-
   const [isSearchPerformedSavedMovies, setIsSearchPerformedSavedMovies] =
     useState(false);
+
+  const navigate = useNavigate();
 
   const location = useLocation();
   const isAuthRoute =
@@ -68,10 +69,12 @@ function App() {
       .then((data) => {
         console.log(data.message);
         setCurrentUser(null);
-        setIsLoggedIn(localStorage.removeItem('loggedIn'));
+        setIsLoggedIn(false);
         localStorage.removeItem('movies');
         localStorage.removeItem('isChecked');
         localStorage.removeItem('keyword');
+        localStorage.removeItem('loggedIn');
+        navigate('/');
       })
       .catch((err) => console.log(err));
   };
@@ -113,7 +116,7 @@ function App() {
     if (isLoggedIn) {
       getCurrentUser()
         .then((user) => {
-          setCurrentUser(user);
+          setCurrentUser({ ...user, isAuthCheck: true });
         })
         .catch((err) => console.log(err));
     }
@@ -132,16 +135,9 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='App'>
-        {!isAuthRoute && <Header isLoggedIn={currentUser} />}
+        {!isAuthRoute && <Header user={currentUser} />}
         <Routes>
-          <Route
-            path='/'
-            element={
-              <ProtectedRoute onlyAuth user={currentUser}>
-                <Main />
-              </ProtectedRoute>
-            }
-          />
+          <Route path='/' element={<Main />} />
           <Route
             path='/movies'
             element={

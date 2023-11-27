@@ -4,10 +4,12 @@ import deleteIcon from '../../images/delete-card.svg';
 
 import { memo, useEffect, useState } from 'react';
 import { deleteMovie, saveMovie } from '../../utils/MainApi';
+import TrailerPopup from '../TrailerPopup/TrailerPopup';
 
 export const MoviesCard = memo(
   ({ movie, savedMovies, saved, addNewMovieToList, onRemoveMovie }) => {
     const [isLiked, setIsLiked] = useState(false);
+    const [isTrailerOpen, setIsTrailerOpen] = useState(false);
 
     const addLike = (e) => {
       saveMovie({
@@ -64,47 +66,66 @@ export const MoviesCard = memo(
       return `${hoursString} ${minutesString}`;
     };
 
+    const openTrailer = (e) => {
+      setIsTrailerOpen(true);
+    };
+
+    const closeTrailer = (e) => {
+      setIsTrailerOpen(false);
+    };
+
     return (
-      <div className='moviescard'>
-        <img
-          src={`${
-            !saved
-              ? 'https://api.nomoreparties.co/' + movie.image.url
-              : movie.image
-          }`}
-          alt={movie.nameRU}
-          className='moviescard__image'
-        />
-        {isLiked && (
+      <>
+        <div className='moviescard' onClick={openTrailer}>
           <img
-            src={like}
-            alt='like'
-            className='moviescard__like'
-            onClick={deleteLike}
+            src={`${
+              !saved
+                ? 'https://api.nomoreparties.co/' + movie.image.url
+                : movie.image
+            }`}
+            alt={movie.nameRU}
+            className='moviescard__image'
           />
-        )}
-        {!saved && !isLiked && (
-          <button
-            type='button'
-            className='moviescard__save-button'
-            onClick={addLike}
-          >
-            Сохранить
-          </button>
-        )}
-        {saved && (
-          <img
-            src={deleteIcon}
-            alt='delete icon'
-            className='moviescard__delete'
-            onClick={deleteLike}
-          />
-        )}
-        <div className='moviescard__info'>
-          <p className='moviescard__name'>{movie.nameRU}</p>
-          <p className='moviescard__duration'>{getDuration(movie.duration)}</p>
+          {isLiked && (
+            <img
+              src={like}
+              alt='like'
+              className='moviescard__like'
+              onClick={deleteLike}
+            />
+          )}
+          {!saved && !isLiked && (
+            <button
+              type='button'
+              className='moviescard__save-button'
+              onClick={addLike}
+            >
+              Сохранить
+            </button>
+          )}
+          {saved && (
+            <img
+              src={deleteIcon}
+              alt='delete icon'
+              className='moviescard__delete'
+              onClick={deleteLike}
+            />
+          )}
+          <div className='moviescard__info'>
+            <p className='moviescard__name'>{movie.nameRU}</p>
+            <p className='moviescard__duration'>
+              {getDuration(movie.duration)}
+            </p>
+          </div>
         </div>
-      </div>
+        {isTrailerOpen && (
+          <TrailerPopup
+            trailerLink={movie.trailerLink}
+            onClose={closeTrailer}
+            isTrailerOpen={isTrailerOpen}
+          />
+        )}
+      </>
     );
   }
 );

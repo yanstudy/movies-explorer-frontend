@@ -4,7 +4,7 @@ import './Header.css';
 import { Link, NavLink } from 'react-router-dom';
 const currentWidth = window.innerWidth;
 
-export default function Header({ isLoggedIn }) {
+export default function Header({ user }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isMobileWidth, setMobileWidth] = useState(false);
 
@@ -30,7 +30,7 @@ export default function Header({ isLoggedIn }) {
   return (
     <header className='header'>
       <Logo />
-      {isMobileWidth && isLoggedIn && (
+      {isMobileWidth && user?.email && (
         <button
           className='header__burger'
           type='button'
@@ -38,7 +38,7 @@ export default function Header({ isLoggedIn }) {
         ></button>
       )}
 
-      {isLoggedIn ? (
+      {user?.email ? (
         <div
           className={`${isMenuOpen ? 'header__menu-open' : 'header__wrapper'}`}
         >
@@ -66,7 +66,7 @@ export default function Header({ isLoggedIn }) {
           </div>
 
           <div className='header__account'>
-            {isLoggedIn && (
+            {user?.email && (
               <Link to='./profile' className='header__account-button'>
                 Аккаунт
               </Link>
