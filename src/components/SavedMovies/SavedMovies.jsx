@@ -6,8 +6,8 @@ import './SavedMovies.css';
 export const SavedMovies = ({
   showSavedMovies,
   movies,
-  savedMovies,
   saved,
+  savedMovies,
   onRemoveMovie,
   isChecked,
   onSearchMyMovies,
@@ -21,10 +21,10 @@ export const SavedMovies = ({
   return (
     <section className='saved-movies'>
       <SearchForm
-        saved={saved}
         isChecked={isChecked}
         onGetResult={onSearchMyMovies}
         onCheckboxChange={onCheckboxChange}
+        saved={saved}
       />
       {isSearchPerformed && !savedMovies.length ? (
         <p className='movies__message'>Ничего не найдено</p>

@@ -7,7 +7,14 @@ import { deleteMovie, saveMovie } from '../../utils/MainApi';
 import TrailerPopup from '../TrailerPopup/TrailerPopup';
 
 export const MoviesCard = memo(
-  ({ movie, savedMovies, saved, addNewMovieToList, onRemoveMovie }) => {
+  ({
+    movie,
+    savedMovies,
+    saved,
+    addNewMovieToList,
+    onRemoveMovie,
+    mobileWidth,
+  }) => {
     const [isLiked, setIsLiked] = useState(false);
     const [isTrailerOpen, setIsTrailerOpen] = useState(false);
 
@@ -67,7 +74,9 @@ export const MoviesCard = memo(
     };
 
     const openTrailer = (e) => {
-      setIsTrailerOpen(true);
+      if (e.target === e.currentTarget) {
+        setIsTrailerOpen(true);
+      }
     };
 
     const closeTrailer = (e) => {
@@ -123,6 +132,7 @@ export const MoviesCard = memo(
             trailerLink={movie.trailerLink}
             onClose={closeTrailer}
             isTrailerOpen={isTrailerOpen}
+            mobileWidth={mobileWidth}
           />
         )}
       </>

@@ -70,6 +70,7 @@ export default function MoviesCardList({
                   savedMovies={savedMovies}
                   addNewMovieToList={addNewMovieToList}
                   onRemoveMovie={onRemoveMovie}
+                  mobileWidth={mobileWidth}
                 />
               ) : null;
             })
@@ -81,6 +82,7 @@ export default function MoviesCardList({
                   saved={saved}
                   savedMovies={savedMovies}
                   onRemoveMovie={onRemoveMovie}
+                  mobileWidth={mobileWidth}
                 />
               );
             })}

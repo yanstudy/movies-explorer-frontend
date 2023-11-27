@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Logo from '../Logo/Logo';
 import './Header.css';
 import { Link, NavLink } from 'react-router-dom';
-const currentWidth = window.innerWidth;
 
 export default function Header({ user }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -11,20 +10,27 @@ export default function Header({ user }) {
   const setActive = ({ isActive }) =>
     isActive ? 'header__movies header__movies_active' : 'header__movies';
 
-  const toggleMenu = (e) => {
-    setMenuOpen(!isMenuOpen);
+  const openMenu = (e) => {
+    setMenuOpen(true);
+  };
+
+  const closeMenu = (e) => {
+    setMenuOpen(false);
   };
 
   useEffect(() => {
-    if (currentWidth <= 768) {
-      setMobileWidth(true);
-    }
-
-    window.addEventListener('resize', () => {
+    function handleResize(e) {
+      const currentWidth = window.innerWidth;
       if (currentWidth <= 768) {
         setMobileWidth(true);
       }
-    });
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
@@ -34,7 +40,7 @@ export default function Header({ user }) {
         <button
           className='header__burger'
           type='button'
-          onClick={toggleMenu}
+          onClick={openMenu}
         ></button>
       )}
 
@@ -45,7 +51,7 @@ export default function Header({ user }) {
           <button
             className='header__close-icon'
             type='button'
-            onClick={toggleMenu}
+            onClick={closeMenu}
             style={{ display: !isMenuOpen ? 'none' : 'block' }}
           />
 
@@ -54,20 +60,29 @@ export default function Header({ user }) {
               to='/'
               style={{ display: !isMenuOpen ? 'none' : 'block' }}
               className={setActive}
+              onClick={closeMenu}
             >
               Главная
             </NavLink>
-            <NavLink to='/movies' className={setActive}>
+            <NavLink to='/movies' className={setActive} onClick={closeMenu}>
               Фильмы
             </NavLink>
-            <NavLink to='/saved-movies' className={setActive}>
+            <NavLink
+              to='/saved-movies'
+              className={setActive}
+              onClick={closeMenu}
+            >
               Сохранённые фильмы
             </NavLink>
           </div>
 
           <div className='header__account'>
             {user?.email && (
-              <Link to='./profile' className='header__account-button'>
+              <Link
+                to='./profile'
+                className='header__account-button'
+                onClick={closeMenu}
+              >
                 Аккаунт
               </Link>
             )}

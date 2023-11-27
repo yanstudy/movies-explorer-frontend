@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import './TrailerPopup.css';
 
-export default function TrailerPopup({ trailerLink, onClose, isTrailerOpen }) {
+export default function TrailerPopup({
+  trailerLink,
+  onClose,
+  isTrailerOpen,
+  mobileWidth,
+}) {
   useEffect(() => {
     if (!isTrailerOpen) return;
 
@@ -30,13 +35,17 @@ export default function TrailerPopup({ trailerLink, onClose, isTrailerOpen }) {
     <div className='trailer-popup' onClick={handleOverlay}>
       <div className='trailer-popup__wrapper'>
         <button
-          className='trailer-popup__close-button'
+          className={
+            !mobileWidth
+              ? 'trailer-popup__close-button'
+              : 'trailer-popup__close-button trailer-popup__close-button_mobile'
+          }
           onClick={onClose}
         ></button>
         <iframe
           title='trailer-popup__frame'
-          width='560'
-          height='315'
+          width={mobileWidth ? 310 : 555}
+          height={mobileWidth ? 220 : 320}
           src={convertLinktoEmbed(trailerLink)}
           frameBorder='0'
           allowFullScreen

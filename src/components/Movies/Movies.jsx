@@ -15,72 +15,75 @@ export default function Movies({
   const [isLoadingMovies, setIsLoadingMovies] = useState(false);
   const [isSearchPerformed, setIsSearchPerformed] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [keyWord, setKeyWord] = useState('');
   const [movies, setMovies] = useState([]);
-  const [unfilteredMovies, setUnfilteredMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
 
   // Поиск по фильмам
-  const handleSearchMovies = (keyword) => {
-    setIsLoadingMovies(true);
-    getFilmsApi()
-      .then((films) => {
-        const filteredMovies = filterMovies(films, keyword);
-        const shortFilms = getShortMovies(films);
-        if (isChecked) {
-          setMovies(shortFilms);
+  useEffect(() => {
+    const storedMovies = JSON.parse(localStorage.getItem('movies')) || [];
+    const isCheckedValue = localStorage.getItem('isChecked') === 'true';
+    const keyword = localStorage.getItem('keyword');
 
-          localStorage.setItem('movies', JSON.stringify(shortFilms));
-        } else {
-          setMovies(filteredMovies);
+    if (!allMovies.length) {
+      setIsChecked(isCheckedValue);
+      setKeyWord(keyword);
+      setMovies(storedMovies);
+    } else {
+      const filteredMovies = filterMovies(allMovies, keyWord);
+      const shortMovies = getShortMovies(filteredMovies);
 
-          localStorage.setItem('movies', JSON.stringify(filteredMovies));
-        }
-        setIsLoadingMovies(false);
-        setIsSearchPerformed(true);
-        localStorage.setItem('isChecked', isChecked);
-        localStorage.setItem('keyword', keyword);
-      })
-      .catch((err) => {
-        setIsLoadingMovies(false);
-        setIsSearchPerformed(true);
-        setErrorDuringSearchMovies(
-          `Во время запроса произошла ошибка. 
+      if (isChecked) {
+        setMovies(shortMovies);
+        localStorage.setItem('movies', JSON.stringify(shortMovies));
+      } else {
+        setMovies(filteredMovies);
+        localStorage.setItem('movies', JSON.stringify(filteredMovies));
+      }
+    }
+    if (storedMovies.length) {
+      setIsSearchPerformed(true);
+    }
+  }, [keyWord, isChecked, allMovies]);
+
+  // Запросить фильмы с сервера и установить ключевое слово
+  const handleSearchMovies = useCallback(
+    (keyword) => {
+      if (!allMovies.length) {
+        setIsLoadingMovies(true);
+        getFilmsApi()
+          .then((films) => {
+            setAllMovies(films);
+            setKeyWord(keyword);
+            setIsLoadingMovies(false);
+            setIsSearchPerformed(true);
+          })
+          .catch((err) => {
+            setIsLoadingMovies(false);
+            setIsSearchPerformed(true);
+            setErrorDuringSearchMovies(
+              `Во время запроса произошла ошибка. 
           Возможно, проблема с соединением или сервер недоступен. 
           Подождите немного и попробуйте ещё раз`
-        );
-      });
-  };
+            );
+          });
+      }
+      localStorage.setItem('keyword', keyword);
+      setKeyWord(keyword);
+    },
+    [allMovies.length]
+  );
 
   // Изменить состояние переключателя короткометражек
   const handleCheckboxChange = useCallback(() => {
     setIsChecked((prevIsChecked) => !prevIsChecked);
     localStorage.setItem('isChecked', !isChecked);
+    const keyword = localStorage.getItem('keyword');
 
-    if (isChecked) {
-      const keyword = localStorage.getItem('keyword') || '';
-      const filteredMovies = filterMovies(unfilteredMovies, keyword);
-      setMovies(filteredMovies);
-      localStorage.setItem('movies', JSON.stringify(filteredMovies));
-    } else {
-      setMovies((prevMovies) => {
-        const shortMovies = getShortMovies(prevMovies);
-        setUnfilteredMovies(prevMovies);
-        localStorage.setItem('movies', JSON.stringify(shortMovies));
-        return shortMovies;
-      });
+    if (!allMovies.length && keyword) {
+      handleSearchMovies(keyWord);
     }
-  }, [isChecked, unfilteredMovies]);
-
-  // Проверить есть ли параметры поиска в localStorage. Если есть - взять оттуда
-  useEffect(() => {
-    const storedMovies = JSON.parse(localStorage.getItem('movies')) || [];
-    const isCheckedValue = localStorage.getItem('isChecked') === 'true';
-    setMovies(storedMovies);
-    setUnfilteredMovies(storedMovies);
-    setIsChecked(isCheckedValue);
-    if (storedMovies.length) {
-      setIsSearchPerformed(true);
-    }
-  }, []);
+  }, [isChecked, allMovies.length, handleSearchMovies, keyWord]);
 
   return (
     <section className='movies'>
