@@ -6,6 +6,7 @@ import AuthButton from '../AuthButton/AuthButton';
 import AuthError from '../AuthError/AuthError';
 import AuthInput from '../AuthInput/AuthInput';
 import './Login.css';
+import { clearTheError } from '../../utils/utils';
 
 export default function Login({ onGetCurrentUser }) {
   const [error, setError] = useState('');
@@ -26,8 +27,10 @@ export default function Login({ onGetCurrentUser }) {
       .catch((err) => {
         if (err === 'Ошибка: 400') {
           setError('Вы ввели неправильный логин или пароль');
+          clearTheError(setError);
         } else {
           setError('При авторизации произошла ошибка');
+          clearTheError(setError);
         }
       })
       .finally(() => setIsLoading(false));

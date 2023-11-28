@@ -9,3 +9,9 @@ export const filterMovies = (movies, keyword) => {
 export const getShortMovies = (movies) => {
   return movies.filter((film) => film.duration <= 40);
 };
+
+export const clearTheError = (setter) => {
+  setTimeout(() => {
+    setter('');
+  }, 3000);
+};

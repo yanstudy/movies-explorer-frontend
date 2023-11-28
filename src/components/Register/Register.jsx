@@ -6,6 +6,7 @@ import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import AuthError from '../AuthError/AuthError';
 import { register } from '../../utils/MainApi';
 import { useState } from 'react';
+import { clearTheError } from '../../utils/utils';
 
 export default function Register({ onGetCurrentUser }) {
   const [error, setError] = useState('');
@@ -26,8 +27,10 @@ export default function Register({ onGetCurrentUser }) {
       .catch((err) => {
         if (err === 'Ошибка: 409') {
           setError('Пользователь с таким email уже существует');
+          clearTheError(setError);
         } else {
           setError('При регистрации пользователя произошла ошибка');
+          clearTheError(setError);
         }
       })
       .finally(() => setIsLoading(false));
