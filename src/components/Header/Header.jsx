@@ -25,6 +25,7 @@ export default function Header({ user }) {
         setMobileWidth(true);
       }
     }
+    handleResize()
 
     window.addEventListener('resize', handleResize);
 

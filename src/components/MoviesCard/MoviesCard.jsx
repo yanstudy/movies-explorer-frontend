@@ -74,7 +74,9 @@ export const MoviesCard = memo(
     };
 
     const openTrailer = (e) => {
+      console.log(e.target, e.currentTarget)
       if (e.target === e.currentTarget) {
+        console.log('kjh')
         setIsTrailerOpen(true);
       }
     };
@@ -85,7 +87,7 @@ export const MoviesCard = memo(
 
     return (
       <>
-        <div className='moviescard' onClick={openTrailer}>
+        <div className='moviescard' >
           <img
             src={`${
               !saved
@@ -94,6 +96,7 @@ export const MoviesCard = memo(
             }`}
             alt={movie.nameRU}
             className='moviescard__image'
+            onClick={openTrailer}
           />
           {isLiked && (
             <img

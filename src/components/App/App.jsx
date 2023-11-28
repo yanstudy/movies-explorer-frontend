@@ -39,14 +39,10 @@ function App() {
     await getCurrentUser()
       .then((user) => {
         setCurrentUser(user);
-        setIsLoggedIn(localStorage.setItem('loggedIn', true));
+        setIsLoggedIn(true);
+        localStorage.setItem('loggedIn', true);
       })
       .catch((err) => console.log(err));
-  };
-
-  const getUserRegister = (user) => {
-    setCurrentUser(user);
-    setIsLoggedIn(localStorage.setItem('loggedIn', true));
   };
 
   // Получить все сохранённые фильмы
@@ -182,7 +178,7 @@ function App() {
             path='/signup'
             element={
               <ProtectedRoute user={currentUser}>
-                <Register onGetCurrentUser={getUserRegister} />
+                <Register onGetCurrentUser={getUser} />
               </ProtectedRoute>
             }
           />
