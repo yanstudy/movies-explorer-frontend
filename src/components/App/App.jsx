@@ -35,8 +35,8 @@ function App() {
     location.pathname.includes('/signin');
 
   // Получить информацию о текущем пользователе
-  const getUser = async () => {
-    await getCurrentUser()
+  const getUser = () => {
+    getCurrentUser()
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
