@@ -18,7 +18,6 @@ export default function Profile({ quitCb, onEditUser }) {
     handleChange,
     errors,
     isValid,
-    setIsValid,
     setValues,
     resetForm,
   } = useFormAndValidation({

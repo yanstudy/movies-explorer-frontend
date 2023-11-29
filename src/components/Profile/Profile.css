@@ -132,13 +132,13 @@
 
 .profile__api-success {
   position: absolute;
-  bottom: -12px;
+  bottom: -22px;
   left: 0;
   right: 0;
   color: rgba(61, 220, 132, 0.6);
   text-align: center;
   font-family: 'Inter', 'Arial', sans-serif;
-  font-size: 9px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -146,7 +146,7 @@
 
 .profile__input-error {
   position: absolute;
-  bottom: -12px;
+  bottom: -14px;
   left: 0;
   right: 0;
   color: #ff004c;
