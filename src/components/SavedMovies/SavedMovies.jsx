@@ -5,7 +5,6 @@ import './SavedMovies.css';
 
 export const SavedMovies = ({
   showSavedMovies,
-  movies,
   saved,
   savedMovies,
   onRemoveMovie,

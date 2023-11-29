@@ -74,7 +74,6 @@ export const MoviesCard = memo(
     };
 
     const openTrailer = (e) => {
-      console.log(e.target, e.currentTarget);
       if (e.target === e.currentTarget) {
         console.log('kjh');
         setIsTrailerOpen(true);
