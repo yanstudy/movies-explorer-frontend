@@ -4,17 +4,41 @@ import './Register.css';
 import AuthButton from '../AuthButton/AuthButton';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import AuthError from '../AuthError/AuthError';
+import { register } from '../../utils/MainApi';
+import { useState } from 'react';
+import { clearTheError } from '../../utils/utils';
+import { EMAIL_PATTERN, NAME_PATTERN } from '../../utils/consts.js';
 
-export default function Register() {
-  const { values, handleChange, errors, isValid, setValues, resetForm } =
-    useFormAndValidation({
-      name: '',
-      email: '',
-      password: '',
-    });
+export default function Register({ onGetCurrentUser }) {
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { values, handleChange, errors, isValid } = useFormAndValidation({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const handleSubmitRegister = (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+    register(values)
+      .then((user) => {
+        onGetCurrentUser(user);
+      })
+      .catch((err) => {
+        if (err === 'Ошибка: 409') {
+          setError('Пользователь с таким email уже существует');
+          clearTheError(setError);
+        } else {
+          setError('При регистрации пользователя произошла ошибка');
+          clearTheError(setError);
+        }
+      })
+      .finally(() => setIsLoading(false));
+  };
 
   return (
-    <form className='register' noValidate>
+    <form className='register' onSubmit={handleSubmitRegister}>
       <Auth title='Добро пожаловать!'>
         <AuthInput
           label={'Имя'}
@@ -24,6 +48,7 @@ export default function Register() {
           value={values.name}
           error={errors.name}
           onChange={handleChange}
+          pattern={NAME_PATTERN}
           minLength={2}
           maxLength={30}
         />
@@ -35,6 +60,7 @@ export default function Register() {
           value={values.email}
           error={errors.email}
           onChange={handleChange}
+          pattern={EMAIL_PATTERN}
         />
         <AuthInput
           label={'Пароль'}
@@ -45,7 +71,7 @@ export default function Register() {
           error={errors.password}
           onChange={handleChange}
         />
-        <AuthError error='Что-то пошло не так...' />
+        <AuthError error={error} />
       </Auth>
       <div className='register__button'>
         <AuthButton
@@ -53,7 +79,8 @@ export default function Register() {
           question='Уже зарегистрированы?'
           link='/signin'
           span='Войти'
-          isActive={isValid}
+          isValid={isValid}
+          isLoading={isLoading}
         />
       </div>
     </form>

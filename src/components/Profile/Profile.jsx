@@ -1,15 +1,23 @@
 import './Profile.css';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import { editUser } from '../../utils/MainApi';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { EMAIL_PATTERN, NAME_PATTERN } from '../../utils/consts';
 
-export default function Profile() {
+export default function Profile({ quitCb, onEditUser }) {
   const [isEditing, setIsEditiong] = useState(false);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const inputRef = useRef();
+  const user = useContext(CurrentUserContext);
 
   const { values, handleChange, errors, isValid, setValues, resetForm } =
     useFormAndValidation({
-      name: 'Артур',
-      email: '123@mail.ru',
+      name: user && user.name ? user.name : '',
+      email: user && user.email ? user.email : '',
     });
 
   const handleEditingPossible = (e) => {
@@ -19,15 +27,39 @@ export default function Profile() {
 
   const handleSubmitEditing = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
+    setError('');
+    editUser(values)
+      .then((newUserData) => {
+        onEditUser(newUserData);
+        setIsEditiong(false);
+        resetForm();
+        setValues(newUserData);
+        setIsSuccess(true);
+        setTimeout(() => setIsSuccess(false), 3000);
+      })
+      .catch((err) => {
+        if (err === 'Ошибка: 409') {
+          setError('Пользователь с таким email уже существует');
+        } else {
+          setError('При обновлении профиля произошла ошибка');
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleQuit = (e) => {
     e.preventDefault();
+    quitCb();
+    setIsEditiong(false);
   };
 
   return (
     <section className='profile'>
-      <h3 className='profile__hello'>{`Привет, ${values.name}!`}</h3>
+      <h3 className='profile__hello'>{`Привет, ${user.name}!`}</h3>
       <form className='profile__form' noValidate onSubmit={handleSubmitEditing}>
         <label htmlFor='name' className='profile__label'>
           Имя
@@ -42,6 +74,8 @@ export default function Profile() {
             onChange={handleChange}
             ref={inputRef}
             readOnly={isEditing ? false : true}
+            pattern={NAME_PATTERN}
+            required
           />
           <span className='profile__input-error'>{errors.name}</span>
         </label>
@@ -55,20 +89,26 @@ export default function Profile() {
             type='email'
             onChange={handleChange}
             readOnly={isEditing ? false : true}
+            pattern={EMAIL_PATTERN}
+            required
           />
           <span className='profile__input-error'>{errors.email}</span>
+          {isSuccess && (
+            <span className='profile__api-success'>
+              Профиль успешно обновлён
+            </span>
+          )}
         </label>
 
         {isEditing ? (
           <div className='profile__save-button-container'>
-            <span className='profile__api-error'>
-              При обновлении профиля произошла ошибка.
-            </span>
+            <span className='profile__api-error'>{error}</span>
             <button
               className={`profile__save-button ${
-                !isValid ? 'profile__save-button_inactive' : ''
+                !isValid || isLoading ? 'profile__save-button_inactive' : ''
               }`}
               type='submit'
+              disabled={!(isValid && !isLoading)}
             >
               Сохранить
             </button>

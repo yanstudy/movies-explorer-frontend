@@ -50,6 +50,7 @@
   right: 14px;
   top: 14px;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .moviescard__delete {
@@ -122,6 +123,17 @@
   }
   .moviescard__image {
     height: 190px;
+  }
+}
+
+@media (max-width: 555px) {
+  .moviescard__save-button {
+    visibility: visible;
+    opacity: 1;
+  }
+  .moviescard__delete {
+    visibility: visible;
+    opacity: 1;
   }
 }
 

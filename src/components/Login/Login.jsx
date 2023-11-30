@@ -1,19 +1,44 @@
+import { useState } from 'react';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import { authorize } from '../../utils/MainApi';
 import Auth from '../Auth/Auth';
 import AuthButton from '../AuthButton/AuthButton';
 import AuthError from '../AuthError/AuthError';
 import AuthInput from '../AuthInput/AuthInput';
 import './Login.css';
+import { clearTheError } from '../../utils/utils';
+import { EMAIL_PATTERN } from '../../utils/consts';
 
-export default function Login() {
-  const { values, handleChange, errors, isValid, setValues, resetForm } =
-    useFormAndValidation({
-      email: '',
-      password: '',
-    });
+export default function Login({ onGetCurrentUser }) {
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { values, handleChange, errors, isValid } = useFormAndValidation({
+    email: '',
+    password: '',
+  });
+
+  const handleSubmitLogin = (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+    authorize(values)
+      .then((data) => {
+        console.log(data.message);
+        onGetCurrentUser();
+      })
+      .catch((err) => {
+        if (err === 'Ошибка: 400') {
+          setError('Вы ввели неправильный логин или пароль');
+          clearTheError(setError);
+        } else {
+          setError('При авторизации произошла ошибка');
+          clearTheError(setError);
+        }
+      })
+      .finally(() => setIsLoading(false));
+  };
 
   return (
-    <form className='login' noValidate>
+    <form className='login' noValidate onSubmit={handleSubmitLogin}>
       <Auth title='Рады видеть!'>
         <AuthInput
           label='E-mail'
@@ -23,6 +48,7 @@ export default function Login() {
           value={values.email}
           onChange={handleChange}
           error={errors.email}
+          pattern={EMAIL_PATTERN}
         />
         <AuthInput
           label='Пароль'
@@ -33,7 +59,7 @@ export default function Login() {
           onChange={handleChange}
           error={errors.password}
         />
-        <AuthError error='Что-то пошло не так...' />
+        <AuthError error={error} />
       </Auth>
       <div className='login__button'>
         <AuthButton
@@ -41,7 +67,8 @@ export default function Login() {
           question='Ещё не зарегистрированы?'
           link='/signup'
           span='Регистрация'
-          isActive={isValid}
+          isValid={isValid}
+          isLoading={isLoading}
         />
       </div>
     </form>

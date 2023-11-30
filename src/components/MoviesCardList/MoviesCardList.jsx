@@ -1,46 +1,88 @@
-import MoviesCard from '../MoviesCard/MoviesCard';
+import { useEffect, useState } from 'react';
+import { MoviesCard } from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
+import { useResize } from '../../hooks/useResize';
+import {
+  AMOUNT_OF_MOVIES_AVERAGE,
+  AMOUNT_OF_MOVIES_DESKTOP,
+  AMOUNT_OF_MOVIES_MOBILE,
+} from '../../utils/consts';
 
-export default function MoviesCardList({ saved }) {
+export default function MoviesCardList({
+  movies,
+  savedMovies,
+  saved,
+  addNewMovieToList,
+  onRemoveMovie,
+}) {
+  const [currentAmountOfMovies, setCurrentAmountOfMovies] = useState(
+    AMOUNT_OF_MOVIES_DESKTOP
+  );
+  const { isDesktopWidth, isAverageWidth, isMobileWidth } = useResize();
+
+  const addMoreCards = () => {
+    if (isDesktopWidth) {
+      setCurrentAmountOfMovies((prevAmount) => prevAmount + 3);
+    } else if (isAverageWidth || isMobileWidth) {
+      setCurrentAmountOfMovies((prevAmount) => prevAmount + 2);
+    }
+  };
+
+  useEffect(() => {
+    setCurrentAmountOfMovies(
+      isDesktopWidth
+        ? AMOUNT_OF_MOVIES_DESKTOP
+        : isAverageWidth
+        ? AMOUNT_OF_MOVIES_AVERAGE
+        : isMobileWidth
+        ? AMOUNT_OF_MOVIES_MOBILE
+        : AMOUNT_OF_MOVIES_DESKTOP
+    );
+  }, [isDesktopWidth, isAverageWidth, isMobileWidth]);
+
+  const hasMoreMovies = !saved
+    ? currentAmountOfMovies < movies.length
+    : currentAmountOfMovies < savedMovies.length;
+
   return (
     <section className='movies-card-list'>
       <div className='movies-card-list__container'>
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='33 слова о дизайне'
-          duration='1ч 17м'
-          saved={saved}
-        />
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='Киноальманах «100 лет дизайна»'
-          duration='1ч 17м'
-          saved={saved}
-        />
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='В погоне за Бенкси'
-          duration='1 ч 17 м'
-          saved={saved}
-        />
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='Баския: Взрыв реальности'
-          duration='1 ч 17 м'
-          saved={saved}
-        />
-        <MoviesCard
-          link='https://www.tutu.ru/file/4/8d300c3b81aec38fc3329d41f01ebc60/'
-          name='33 слова о дизайне'
-          duration='1ч 17м'
-          saved={saved}
-        />
+        {!saved
+          ? movies.map((movie, index) => {
+              return index <= currentAmountOfMovies ? (
+                <MoviesCard
+                  key={movie.id}
+                  movie={movie}
+                  saved={saved}
+                  savedMovies={savedMovies}
+                  addNewMovieToList={addNewMovieToList}
+                  onRemoveMovie={onRemoveMovie}
+                  mobileWidth={isMobileWidth}
+                />
+              ) : null;
+            })
+          : savedMovies.map((movie) => {
+              return (
+                <MoviesCard
+                  key={movie._id}
+                  movie={movie}
+                  saved={saved}
+                  savedMovies={savedMovies}
+                  onRemoveMovie={onRemoveMovie}
+                  mobileWidth={isMobileWidth}
+                />
+              );
+            })}
       </div>
-      {!saved && (
-        <button type='button' className='movies-card-list__button'>
+      {!saved && hasMoreMovies ? (
+        <button
+          type='button'
+          className='movies-card-list__button'
+          onClick={addMoreCards}
+        >
           Ещё
         </button>
-      )}
+      ) : null}
     </section>
   );
 }

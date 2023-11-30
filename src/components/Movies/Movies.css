@@ -1,2 +1,48 @@
 .movies {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.movies__message {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  padding-top: 20px;
+}
+
+.movies__message_error {
+  font-size: 12px;
+}
+
+@media (max-width: 1180px) {
+  .movies {
+    max-width: 1024px;
+  }
+}
+
+@media (max-width: 1060px) {
+  .movies {
+    max-width: 868px;
+  }
+}
+
+@media (max-width: 900px) {
+  .movies {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 800px) {
+  .movies {
+    max-width: 728px;
+  }
+}
+
+@media (max-width: 768px) {
+  .movies {
+    max-width: 768px;
+  }
 }
