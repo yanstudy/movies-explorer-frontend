@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { MoviesCard } from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
+import { useResize } from '../../hooks/useResize';
+import {
+  AMOUNT_OF_MOVIES_AVERAGE,
+  AMOUNT_OF_MOVIES_DESKTOP,
+  AMOUNT_OF_MOVIES_MOBILE,
+} from '../../utils/consts';
 
 export default function MoviesCardList({
   movies,
@@ -9,49 +15,30 @@ export default function MoviesCardList({
   addNewMovieToList,
   onRemoveMovie,
 }) {
-  const [destkopWidth, setDesktopWidth] = useState(false);
-  const [averageWidth, setAverageWidth] = useState(false);
-  const [mobileWidth, setMobileWidth] = useState(false);
-  const [currentAmountOfMovies, setCurrentAmountOfMovies] = useState(11);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const newWidth = window.innerWidth;
-
-      if (newWidth >= 1060) {
-        setDesktopWidth(true);
-        setAverageWidth(false);
-        setMobileWidth(false);
-        setCurrentAmountOfMovies(11);
-      } else if (newWidth <= 1060 && newWidth > 555) {
-        setDesktopWidth(false);
-        setAverageWidth(true);
-        setMobileWidth(false);
-        setCurrentAmountOfMovies(7);
-      } else if (newWidth <= 555) {
-        setDesktopWidth(false);
-        setAverageWidth(false);
-        setMobileWidth(true);
-        setCurrentAmountOfMovies(4);
-      }
-    };
-
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  const [currentAmountOfMovies, setCurrentAmountOfMovies] = useState(
+    AMOUNT_OF_MOVIES_DESKTOP
+  );
+  const { isDesktopWidth, isAverageWidth, isMobileWidth } = useResize();
 
   const addMoreCards = () => {
-    if (destkopWidth) {
+    if (isDesktopWidth) {
       setCurrentAmountOfMovies((prevAmount) => prevAmount + 3);
-    } else if (averageWidth || mobileWidth) {
+    } else if (isAverageWidth || isMobileWidth) {
       setCurrentAmountOfMovies((prevAmount) => prevAmount + 2);
     }
   };
+
+  useEffect(() => {
+    setCurrentAmountOfMovies(
+      isDesktopWidth
+        ? AMOUNT_OF_MOVIES_DESKTOP
+        : isAverageWidth
+        ? AMOUNT_OF_MOVIES_AVERAGE
+        : isMobileWidth
+        ? AMOUNT_OF_MOVIES_MOBILE
+        : AMOUNT_OF_MOVIES_DESKTOP
+    );
+  }, [isDesktopWidth, isAverageWidth, isMobileWidth]);
 
   const hasMoreMovies = !saved
     ? currentAmountOfMovies < movies.length
@@ -70,7 +57,7 @@ export default function MoviesCardList({
                   savedMovies={savedMovies}
                   addNewMovieToList={addNewMovieToList}
                   onRemoveMovie={onRemoveMovie}
-                  mobileWidth={mobileWidth}
+                  mobileWidth={isMobileWidth}
                 />
               ) : null;
             })
@@ -82,7 +69,7 @@ export default function MoviesCardList({
                   saved={saved}
                   savedMovies={savedMovies}
                   onRemoveMovie={onRemoveMovie}
-                  mobileWidth={mobileWidth}
+                  mobileWidth={isMobileWidth}
                 />
               );
             })}

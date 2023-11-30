@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Logo from '../Logo/Logo';
 import './Header.css';
 import { Link, NavLink } from 'react-router-dom';
+import { useResize } from '../../hooks/useResize';
 
 export default function Header({ user }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const [isMobileWidth, setMobileWidth] = useState(false);
+  const { isMobileWidth } = useResize();
 
   const setActive = ({ isActive }) =>
     isActive ? 'header__movies header__movies_active' : 'header__movies';
@@ -17,22 +18,6 @@ export default function Header({ user }) {
   const closeMenu = (e) => {
     setMenuOpen(false);
   };
-
-  useEffect(() => {
-    function handleResize(e) {
-      const currentWidth = window.innerWidth;
-      if (currentWidth <= 768) {
-        setMobileWidth(true);
-      }
-    }
-    handleResize()
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   return (
     <header className='header'>

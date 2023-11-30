@@ -10,6 +10,7 @@ export default function Movies({
   savedMovies,
   addNewMovieToList,
   onRemoveMovie,
+  onChangeSavedMovies,
 }) {
   const [errorDuringSearchMovies, setErrorDuringSearchMovies] = useState('');
   const [isLoadingMovies, setIsLoadingMovies] = useState(false);
@@ -21,6 +22,7 @@ export default function Movies({
 
   // Поиск по фильмам
   useEffect(() => {
+    onChangeSavedMovies();
     const storedMovies = JSON.parse(localStorage.getItem('movies')) || [];
     const isCheckedValue = localStorage.getItem('isChecked') === 'true';
     const keyword = localStorage.getItem('keyword');
@@ -44,7 +46,7 @@ export default function Movies({
     if (storedMovies.length) {
       setIsSearchPerformed(true);
     }
-  }, [keyWord, isChecked, allMovies]);
+  }, [keyWord, isChecked, allMovies, onChangeSavedMovies]);
 
   // Запросить фильмы с сервера и установить ключевое слово
   const handleSearchMovies = useCallback(

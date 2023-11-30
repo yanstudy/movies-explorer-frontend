@@ -2,9 +2,10 @@ import './MoviesCard.css';
 import like from '../../images/like.svg';
 import deleteIcon from '../../images/delete-card.svg';
 
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { deleteMovie, saveMovie } from '../../utils/MainApi';
 import TrailerPopup from '../TrailerPopup/TrailerPopup';
+import { MAIN_DOMAIN_MOVIES } from '../../utils/consts';
 
 export const MoviesCard = memo(
   ({
@@ -15,8 +16,8 @@ export const MoviesCard = memo(
     onRemoveMovie,
     mobileWidth,
   }) => {
-    const [isLiked, setIsLiked] = useState(false);
     const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+    const isLiked = savedMovies.find((el) => el.movieId === movie.id);
 
     const addLike = (e) => {
       saveMovie({
@@ -25,17 +26,14 @@ export const MoviesCard = memo(
         duration: movie.duration,
         year: movie.year,
         description: movie.description,
-        image: `https://api.nomoreparties.co/${movie.image.url}`,
+        image: MAIN_DOMAIN_MOVIES + movie.image.url,
         trailerLink: movie.trailerLink,
-        thumbnail: `https://api.nomoreparties.co/${
-          movie.image.previewUrl.split('\n/')[0]
-        }`,
+        thumbnail: MAIN_DOMAIN_MOVIES + movie.image.previewUrl.split('\n/')[0],
         movieId: movie.id,
         nameRU: movie.nameRU,
         nameEN: movie.nameEN,
       })
         .then((data) => {
-          setIsLiked(true);
           addNewMovieToList(data);
         })
         .catch((err) => console.log(err));
@@ -46,23 +44,11 @@ export const MoviesCard = memo(
       const movieIdToDelete = saved ? movie._id : currentMovie._id;
       deleteMovie(movieIdToDelete)
         .then((data) => {
-          setIsLiked(false);
           console.log(data.message);
           onRemoveMovie(movieIdToDelete);
         })
         .catch((err) => console.log(err));
     };
-
-    useEffect(() => {
-      if (!saved) {
-        const isAlreadyLiked = savedMovies.find(
-          (el) => el.movieId === movie.id
-        );
-        if (isAlreadyLiked) {
-          setIsLiked(true);
-        }
-      }
-    }, [saved, movie.id, savedMovies]);
 
     const getDuration = (duration) => {
       const hours = Math.round(duration / 60);
@@ -75,7 +61,6 @@ export const MoviesCard = memo(
 
     const openTrailer = (e) => {
       if (e.target === e.currentTarget) {
-        console.log('kjh');
         setIsTrailerOpen(true);
       }
     };
@@ -89,9 +74,7 @@ export const MoviesCard = memo(
         <div className='moviescard'>
           <img
             src={`${
-              !saved
-                ? 'https://api.nomoreparties.co/' + movie.image.url
-                : movie.image
+              !saved ? MAIN_DOMAIN_MOVIES + movie.image.url : movie.image
             }`}
             alt={movie.nameRU}
             className='moviescard__image'

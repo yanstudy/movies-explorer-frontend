@@ -3,6 +3,7 @@ import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import { useContext, useRef, useState } from 'react';
 import { editUser } from '../../utils/MainApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { EMAIL_PATTERN, NAME_PATTERN } from '../../utils/consts';
 
 export default function Profile({ quitCb, onEditUser }) {
   const [isEditing, setIsEditiong] = useState(false);
@@ -13,17 +14,11 @@ export default function Profile({ quitCb, onEditUser }) {
   const inputRef = useRef();
   const user = useContext(CurrentUserContext);
 
-  const {
-    values,
-    handleChange,
-    errors,
-    isValid,
-    setValues,
-    resetForm,
-  } = useFormAndValidation({
-    name: user && user.name ? user.name : '',
-    email: user && user.email ? user.email : '',
-  });
+  const { values, handleChange, errors, isValid, setValues, resetForm } =
+    useFormAndValidation({
+      name: user && user.name ? user.name : '',
+      email: user && user.email ? user.email : '',
+    });
 
   const handleEditingPossible = (e) => {
     setIsEditiong(true);
@@ -79,7 +74,7 @@ export default function Profile({ quitCb, onEditUser }) {
             onChange={handleChange}
             ref={inputRef}
             readOnly={isEditing ? false : true}
-            pattern='^[a-zA-Zа-яА-Я]+[a-zA-Zа-яА-Я\- ]*$'
+            pattern={NAME_PATTERN}
             required
           />
           <span className='profile__input-error'>{errors.name}</span>
@@ -94,6 +89,7 @@ export default function Profile({ quitCb, onEditUser }) {
             type='email'
             onChange={handleChange}
             readOnly={isEditing ? false : true}
+            pattern={EMAIL_PATTERN}
             required
           />
           <span className='profile__input-error'>{errors.email}</span>
@@ -112,7 +108,7 @@ export default function Profile({ quitCb, onEditUser }) {
                 !isValid || isLoading ? 'profile__save-button_inactive' : ''
               }`}
               type='submit'
-              disabled={!isValid || isLoading}
+              disabled={!(isValid && !isLoading)}
             >
               Сохранить
             </button>

@@ -1,13 +1,22 @@
 import { Link } from 'react-router-dom';
 import './AuthButton.css';
 
-export default function AuthButton({ title, question, link, span, isActive }) {
+export default function AuthButton({
+  title,
+  question,
+  link,
+  span,
+  isValid,
+  isLoading,
+}) {
   return (
     <>
       <button
         type='submit'
-        className={`auth-button ${!isActive ? 'auth-button_inactive' : ''}`}
-        disabled={!isActive}
+        className={`auth-button ${
+          !(isValid && !isLoading) ? 'auth-button_inactive' : ''
+        }`}
+        disabled={!(isValid && !isLoading)}
       >
         {title}
       </button>

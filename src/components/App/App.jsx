@@ -142,6 +142,7 @@ function App() {
                   savedMovies={savedMovies}
                   onRemoveMovie={handleRemoveMovie}
                   addNewMovieToList={addNewMovieToCardList}
+                  onChangeSavedMovies={getSavedMovies}
                 />
               </ProtectedRoute>
             }

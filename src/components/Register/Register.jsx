@@ -7,6 +7,7 @@ import AuthError from '../AuthError/AuthError';
 import { register } from '../../utils/MainApi';
 import { useState } from 'react';
 import { clearTheError } from '../../utils/utils';
+import { EMAIL_PATTERN, NAME_PATTERN } from '../../utils/consts.js';
 
 export default function Register({ onGetCurrentUser }) {
   const [error, setError] = useState('');
@@ -47,7 +48,7 @@ export default function Register({ onGetCurrentUser }) {
           value={values.name}
           error={errors.name}
           onChange={handleChange}
-          pattern='^[a-zA-Zа-яА-Я]+[a-zA-Zа-яА-Я\- ]*$'
+          pattern={NAME_PATTERN}
           minLength={2}
           maxLength={30}
         />
@@ -59,6 +60,7 @@ export default function Register({ onGetCurrentUser }) {
           value={values.email}
           error={errors.email}
           onChange={handleChange}
+          pattern={EMAIL_PATTERN}
         />
         <AuthInput
           label={'Пароль'}
@@ -77,7 +79,8 @@ export default function Register({ onGetCurrentUser }) {
           question='Уже зарегистрированы?'
           link='/signin'
           span='Войти'
-          isActive={isValid || isLoading}
+          isValid={isValid}
+          isLoading={isLoading}
         />
       </div>
     </form>

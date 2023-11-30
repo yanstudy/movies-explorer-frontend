@@ -7,6 +7,7 @@ import AuthError from '../AuthError/AuthError';
 import AuthInput from '../AuthInput/AuthInput';
 import './Login.css';
 import { clearTheError } from '../../utils/utils';
+import { EMAIL_PATTERN } from '../../utils/consts';
 
 export default function Login({ onGetCurrentUser }) {
   const [error, setError] = useState('');
@@ -47,6 +48,7 @@ export default function Login({ onGetCurrentUser }) {
           value={values.email}
           onChange={handleChange}
           error={errors.email}
+          pattern={EMAIL_PATTERN}
         />
         <AuthInput
           label='Пароль'
@@ -65,7 +67,8 @@ export default function Login({ onGetCurrentUser }) {
           question='Ещё не зарегистрированы?'
           link='/signup'
           span='Регистрация'
-          isActive={isValid || isLoading}
+          isValid={isValid}
+          isLoading={isLoading}
         />
       </div>
     </form>
